@@ -1,0 +1,6 @@
+﻿CREATE TABLE [dbo].[Groups]
+(
+	[Id] INT NOT NULL PRIMARY KEY, 
+    [Name] NVARCHAR(MAX) NULL
+	CONSTRAINT [PK_dbo.Groups] PRIMARY KEY CLUSTERED ([Id] ASC)
+)

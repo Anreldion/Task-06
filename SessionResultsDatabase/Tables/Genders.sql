@@ -1,0 +1,6 @@
+﻿CREATE TABLE [dbo].[Genders]
+(
+	[Id] INT NOT NULL PRIMARY KEY, 
+    [Name] NVARCHAR(MAX) NULL
+	CONSTRAINT [PK_dbo.Genders] PRIMARY KEY CLUSTERED ([Id] ASC)
+)
