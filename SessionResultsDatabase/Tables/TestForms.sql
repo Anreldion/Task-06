@@ -1,0 +1,6 @@
+﻿CREATE TABLE [dbo].[TestForms]
+(
+	[Id] INT NOT NULL, 
+    [Name] NVARCHAR(MAX) NULL
+	CONSTRAINT [PK_dbo.TestForm] PRIMARY KEY CLUSTERED ([Id] ASC)
+)
