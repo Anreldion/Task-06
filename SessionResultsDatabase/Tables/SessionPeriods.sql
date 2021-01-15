@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[SessionPeriods]
 (
-	[Id] INT NOT NULL, 
-    [Name] NCHAR(10) NOT NULL,
-	CONSTRAINT [PK_dbo.SessionPeriods] PRIMARY KEY CLUSTERED ([Id] ASC)
+	[Id] INT IDENTITY(1, 1) NOT NULL, 
+    [Name] NVARCHAR(MAX) NOT NULL, 
+    CONSTRAINT [PK_SessionPeriods] PRIMARY KEY ([Id]),
 )

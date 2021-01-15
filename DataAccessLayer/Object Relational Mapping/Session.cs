@@ -15,11 +15,11 @@ namespace DataAccessLayer.Object_Relational_Mapping
         /// <summary>
         /// 
         /// </summary>
-        public DateTime From { get; set; }
+        public DateTime DateFrom { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public DateTime To { get; set; }
+        public DateTime DateTo { get; set; }
         /// <summary>
         /// 
         /// </summary>
@@ -31,15 +31,15 @@ namespace DataAccessLayer.Object_Relational_Mapping
         {
             Id = id;
             SessionPeriodId = sessionPeriodId;
-            From = from;
-            To = to;
+            DateFrom = from;
+            DateTo = to;
         }
 
         public Session(int sessionPeriodId, DateTime from, DateTime to)
         {
             SessionPeriodId = sessionPeriodId;
-            From = from;
-            To = to;
+            DateFrom = from;
+            DateTo = to;
         }
 
         public override bool Equals(object obj)
@@ -47,13 +47,13 @@ namespace DataAccessLayer.Object_Relational_Mapping
             return obj is Session session &&
                    Id == session.Id &&
                    SessionPeriodId == session.SessionPeriodId &&
-                   From == session.From &&
-                   To == session.To;
+                   DateFrom == session.DateFrom &&
+                   DateTo == session.DateTo;
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Id, SessionPeriodId, From, To);
+            return HashCode.Combine(Id, SessionPeriodId, DateFrom, DateTo);
         }
     }
 }

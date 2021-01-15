@@ -1,6 +1,7 @@
-﻿CREATE TABLE [dbo].[FormsOfEducation]
+﻿CREATE TABLE [dbo].[EducationForms]
 (
 	[Id] INT IDENTITY(1, 1) NOT NULL, 
-    [Name] NVARCHAR(MAX) NULL,
-	CONSTRAINT [PK_dbo.FormsOfEducation] PRIMARY KEY CLUSTERED ([Id] ASC)
+    [Name] NVARCHAR(MAX) NOT NULL, 
+    CONSTRAINT [PK_EducationForms] PRIMARY KEY ([Id]), 
+    
 )

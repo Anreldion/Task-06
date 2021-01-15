@@ -1,6 +1,7 @@
 ﻿CREATE TABLE [dbo].[Subjects]
 (
-	[Id] INT NOT NULL, 
-    [Name] NVARCHAR(MAX) NOT NULL
-	CONSTRAINT [PK_dbo.Subjects] PRIMARY KEY CLUSTERED ([Id] ASC)
+	[Id] INT IDENTITY(1, 1) NOT NULL, 
+    [Name] NVARCHAR(MAX) NOT NULL, 
+    CONSTRAINT [PK_Subjects] PRIMARY KEY ([Id])
+	
 )

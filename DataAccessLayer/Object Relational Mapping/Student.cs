@@ -8,26 +8,29 @@ namespace DataAccessLayer.Object_Relational_Mapping
         {
         }
 
-        public Student(string name, string surname, int genderId, DateTime date, int groupId, int course, int educationFormId)
+        public Student(string name, string surname, string middleName, int genderId, DateTime dateofBirth, int groupId, int educationFormId)
         {
             Name = name;
             Surname = surname;
+            MiddleName = middleName;
             GenderId = genderId;
-            DateofBirth = date;
+            DateofBirth = dateofBirth;
             GroupId = groupId;
             EducationFormId = educationFormId;
         }
 
-        public Student(int id, string name, string surname, int genderId, DateTime date, int groupId, int course, int educationFormId)
+        public Student(int id, string name, string surname, string middleName, int genderId, DateTime dateofBirth, int groupId, int educationFormId)
         {
             Id = id;
             Name = name;
             Surname = surname;
+            MiddleName = middleName;
             GenderId = genderId;
-            DateofBirth = date;
+            DateofBirth = dateofBirth;
             GroupId = groupId;
             EducationFormId = educationFormId;
         }
+
 
         /// <summary>
         /// ID

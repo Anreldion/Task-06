@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DataAccessLayer.Data_Access_Object
@@ -15,117 +15,96 @@ namespace DataAccessLayer.Data_Access_Object
         {
             this.connectionString = connectionString;
         }
-        public async Task<bool> CreateAsync(T data)
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public async Task<bool> IsExistAsync(T data)
         {
-            //try
-            //{
-                Type dataType = GetTypeAndPropInfo(data).Item1;
-                PropertyInfo[] propertyInfos = GetTypeAndPropInfo(data).Item2;
-
-                string tableName = $"{dataType.Name}s";
-                List<string> tableColumns = new List<string>();
-                List<string> parameters = new List<string>();
-
-                using SqlConnection connection = new SqlConnection(connectionString);
-                using SqlCommand command = new SqlCommand();
-
-                foreach (var property in propertyInfos)
-                {
-                    if (string.Equals(property.Name, "id", StringComparison.OrdinalIgnoreCase))
-                    {
-                        continue;
-                    }
-
-                    tableColumns.Add(property.Name);
-                    parameters.Add($"@{property.Name}");
-                    command.Parameters.AddWithValue($"@{property.Name}", property.GetValue(data));
-                }
-
-                await connection.OpenAsync().ConfigureAwait(false);
-                command.CommandText = $"INSERT INTO [dbo].[{tableName}] ({string.Join(",", tableColumns)}) VALUES ({string.Join(",", parameters)})";
-                command.Connection = connection;
-                await command.ExecuteNonQueryAsync().ConfigureAwait(false);
-                return true;
-            //}
-            //catch
-            //{
-            //    return false;
-            //}
-        }
-
-        /// <inheritdoc cref="IDao{T}.TryReadAsync(int)"/>
-        public async Task<T> TryReadAsync(int id)
-        {
+            List<string> columns = new List<string>();
             try
             {
-                Type type = typeof(T);
-
-                string tableName = $"{type.Name}s";
-                string idValue = $"@{type.GetProperty("Id")?.Name}";
-
-                using SqlConnection connection = new SqlConnection(connectionString);
-                using SqlCommand command = new SqlCommand($"SELECT * FROM [dbo].[{tableName}] WHERE ID = {idValue}", connection);
-                command.Parameters.AddWithValue(idValue, id);
-                await connection.OpenAsync().ConfigureAwait(false);
-
-                using SqlDataReader dataReader = command.ExecuteReader();
-
-                if (dataReader.HasRows && dataReader.FieldCount > 0)
+                using (SqlConnection Connect = new SqlConnection(connectionString))
                 {
-                    List<object> entityParams = new List<object>();
-
-                    while (await dataReader.ReadAsync().ConfigureAwait(false))
+                    using (SqlCommand sqlcommand = new SqlCommand())
                     {
-                        for (int i = 0; i < dataReader.FieldCount; i++)
+                        PropertyInfo[] properties = data.GetType().GetProperties();
+                        foreach (var item in properties)
                         {
-                            entityParams.Add(dataReader.GetValue(i));
+                            if (item.Name == "Id")
+                            {
+                                continue;
+                            }
+                            columns.Add(item.Name);
+                            sqlcommand.Parameters.AddWithValue($"@{item.Name}", item.GetValue(data));
+                        }
+
+                        string parameter_str = "";
+                        foreach (string column in columns)
+                        {
+                            if (parameter_str != "")
+                            {
+                                parameter_str += " and ";
+                            }
+                            parameter_str += $"{column}=@{column}";
+                        }
+                        sqlcommand.CommandText = $"SELECT * FROM [dbo].[{typeof(T).Name}s] WHERE EXISTS (SELECT * FROM [dbo].[{typeof(T).Name}s] WHERE {parameter_str})";
+                        sqlcommand.Connection = Connect;
+                        await Connect.OpenAsync().ConfigureAwait(false);
+                        if (sqlcommand.ExecuteScalar() != null)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
                         }
                     }
-
-                    return (T)Activator.CreateInstance(typeof(T), entityParams.ToArray());
                 }
-
-                return default;
             }
             catch
             {
-                return default;
+                return false;
             }
         }
 
-        /// <inheritdoc cref="IDao{T}.TryUpdateAsync(T)"/>
-        public async Task<bool> UpdateAsync(T data)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public async Task<bool> InsertAsync(T data)
         {
+            List<string> columns = new List<string>();
+            List<string> parameters = new List<string>();
+
             try
             {
-                Type dataType = GetTypeAndPropInfo(data).Item1;
-                PropertyInfo[] propertyInfos = GetTypeAndPropInfo(data).Item2;
-
-                string tableName = $"{dataType.Name}s";
-                string idValue = $"@{dataType.GetProperty("Id")?.Name}";
-                List<string> tableColumns = new List<string>();
-
-                using SqlConnection connection = new SqlConnection(connectionString);
-                using SqlCommand command = new SqlCommand();
-                command.Parameters.AddWithValue(idValue, dataType.GetProperty("Id")?.GetValue(data));
-
-                foreach (var property in propertyInfos)
+                using (SqlConnection Connect = new SqlConnection(connectionString))
                 {
-                    if (string.Equals(property.Name, "id", StringComparison.OrdinalIgnoreCase))
+                    using (SqlCommand sqlCommand = new SqlCommand())
                     {
-                        continue;
+                        PropertyInfo[] properties = data.GetType().GetProperties();
+                        foreach (var item in properties)
+                        {
+                            if (item.Name == "Id")
+                            {
+                                continue;
+                            }
+
+                            columns.Add(item.Name);
+                            parameters.Add($"@{item.Name}");
+                            sqlCommand.Parameters.AddWithValue(parameters.Last(), item.GetValue(data));
+                        }
+                        await Connect.OpenAsync().ConfigureAwait(false);
+                        sqlCommand.CommandText = $"INSERT INTO [dbo].[{typeof(T).Name}s] ({string.Join(",", columns)}) VALUES ({string.Join(",", parameters)})";
+                        sqlCommand.Connection = Connect;
+                        await sqlCommand.ExecuteNonQueryAsync().ConfigureAwait(false);
+                        return true;
                     }
-
-                    tableColumns.Add($"{property.Name} = @{property.Name}");
-                    command.Parameters.AddWithValue($"@{property.Name}", property.GetValue(data));
                 }
-
-                await connection.OpenAsync().ConfigureAwait(false);
-                command.Connection = connection;
-                command.CommandText = $"UPDATE [dbo].[{tableName}] SET {string.Join(",", tableColumns)} WHERE Id = {idValue}";
-                await command.ExecuteNonQueryAsync().ConfigureAwait(false);
-
-                return true;
             }
             catch
             {
@@ -133,64 +112,82 @@ namespace DataAccessLayer.Data_Access_Object
             }
         }
 
-        /// <inheritdoc cref="IDao{T}.TryDeleteAsync(int)"/>
-        public async Task<bool> DeleteAsync(int id)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<T> ReadAsync(int id)
         {
             try
             {
-                Type type = typeof(T);
+                using (SqlConnection Connect = new SqlConnection(connectionString))
+                {
+                    using (SqlCommand sqlcommand = new SqlCommand($"SELECT * FROM [dbo].[{typeof(T).Name}s] WHERE ID=@Id", Connect))
+                    {
+                        sqlcommand.Parameters.AddWithValue("@Id", id);
 
-                string tableName = $"{type.Name}s";
-                string idValue = $"@{type.GetProperty("Id")?.Name}";
+                        await Connect.OpenAsync().ConfigureAwait(false);
 
-                using SqlConnection connection = new SqlConnection(connectionString);
-                using SqlCommand command = new SqlCommand($"DELETE FROM [dbo].[{tableName}] WHERE ID = {idValue}", connection);
-                command.Parameters.AddWithValue(idValue, id);
+                        using (SqlDataReader Reader = sqlcommand.ExecuteReader())
+                        {
+                            if (Reader.HasRows && Reader.FieldCount > 0)
+                            {
+                                List<object> properties = new List<object>();
 
-                await connection.OpenAsync().ConfigureAwait(false);
-                await command.ExecuteNonQueryAsync().ConfigureAwait(false);
-
-                return true;
+                                while (await Reader.ReadAsync().ConfigureAwait(false))
+                                {
+                                    for (int i = 0; i < Reader.FieldCount; i++)
+                                    {
+                                        properties.Add(Reader.GetValue(i));
+                                    }
+                                }
+                                return (T)Activator.CreateInstance(typeof(T), properties.ToArray());
+                            }
+                        }
+                    }
+                }
+                return default;
             }
             catch
             {
-                return false;
+                return default;
             }
         }
 
-        /// <inheritdoc cref="IDao{T}.TryReadAllAsync"/>
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public async Task<IEnumerable<T>> ReadAllAsync()
         {
             try
             {
-                Type type = typeof(T);
-                string tableName = $"{type.Name}s";
-
-                using SqlConnection connection = new SqlConnection(connectionString);
-                using SqlCommand command = new SqlCommand($"SELECT * FROM [dbo].[{tableName}]", connection);
-
-                await connection.OpenAsync().ConfigureAwait(false);
-                using SqlDataReader dataReader = await command.ExecuteReaderAsync();
-                List<T> result = new List<T>();
-
-                if (dataReader.HasRows && dataReader.FieldCount > 0)
+                using (SqlConnection Connect = new SqlConnection(connectionString))
                 {
-                    List<object> properties = new List<object>();
-
-                    while (await dataReader.ReadAsync().ConfigureAwait(false))
+                    using (SqlCommand sqlcommand = new SqlCommand($"SELECT * FROM [dbo].[{typeof(T).Name}s]", Connect))
                     {
-                        for (int i = 0; i < dataReader.FieldCount; i++)
+                        await Connect.OpenAsync().ConfigureAwait(false);
+                        using (SqlDataReader dataReader = await sqlcommand.ExecuteReaderAsync())
                         {
-                            properties.Add(dataReader.GetValue(i));
+                            List<T> list = new List<T>();
+                            if (dataReader.HasRows && dataReader.FieldCount > 0)
+                            {
+                                List<object> properties = new List<object>();
+                                while (await dataReader.ReadAsync().ConfigureAwait(false))
+                                {
+                                    for (int i = 0; i < dataReader.FieldCount; i++)
+                                    {
+                                        properties.Add(dataReader.GetValue(i));
+                                    }
+                                    list.Add((T)Activator.CreateInstance(typeof(T), properties.ToArray()));
+                                    properties.Clear();
+                                }
+                                return list;
+                            }
                         }
-
-                        result.Add((T)Activator.CreateInstance(typeof(T), properties.ToArray()));
-                        properties.Clear();
                     }
-
-                    return result;
                 }
-
                 return null;
             }
             catch
@@ -199,9 +196,73 @@ namespace DataAccessLayer.Data_Access_Object
             }
         }
 
-        /// <summary>Getting type and property info's</summary>
-        /// <param name="data">Data</param>
-        /// <returns>Type and property info's</returns>
-        private (Type, PropertyInfo[]) GetTypeAndPropInfo(T data) => (data.GetType(), data.GetType().GetProperties());
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public async Task<bool> UpdateAsync(T data)
+        {
+            List<string> columns = new List<string>();
+            try
+            {               
+                using (SqlConnection Connect = new SqlConnection(connectionString))
+                {
+                    using (SqlCommand sqlcommand = new SqlCommand())
+                    {
+                        sqlcommand.Parameters.AddWithValue("@Id", typeof(T).GetProperty("Id").GetValue(data));
+                        PropertyInfo[] propertys = data.GetType().GetProperties();
+                        foreach (var item in propertys)
+                        {
+                            if(item.Name == "Id")
+                            {
+                                continue;
+                            }
+
+                            columns.Add($"{item.Name} = @{item.Name}");
+                            sqlcommand.Parameters.AddWithValue($"@{item.Name}", item.GetValue(data));
+                        }
+
+                        await Connect.OpenAsync().ConfigureAwait(false);
+                        sqlcommand.Connection = Connect;
+                        sqlcommand.CommandText = $"UPDATE [dbo].[{typeof(T).Name}s] SET {string.Join(",", columns)} WHERE Id=@Id";
+                        await sqlcommand.ExecuteNonQueryAsync().ConfigureAwait(false);
+                    }
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<bool> DeleteAsync(int id)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    using (SqlCommand command = new SqlCommand($"DELETE FROM [dbo].[{typeof(T).Name}s] WHERE ID=@Id", connection))
+                    {
+                        command.Parameters.AddWithValue("@Id", id);
+                        await connection.OpenAsync().ConfigureAwait(false);
+                        await command.ExecuteNonQueryAsync().ConfigureAwait(false);
+                    }
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+
     }
 }

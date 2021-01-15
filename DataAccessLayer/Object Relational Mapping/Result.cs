@@ -44,18 +44,16 @@ namespace DataAccessLayer.Object_Relational_Mapping
             StudentId = studentId;
             Mark = mark;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="sessionId"></param>
-        /// <param name="subjectId"></param>
-        /// <param name="studentId"></param>
-        /// <param name="mark"></param>
-        public Result(int id, int sessionId, int subjectId, int studentId, int mark) : this(id, sessionId, subjectId, studentId)
+
+        public Result(int id, int sessionId, int subjectId, int studentId, int mark)
         {
+            Id = id;
+            SessionId = sessionId;
+            SubjectId = subjectId;
+            StudentId = studentId;
             Mark = mark;
         }
+
         /// <inheritdoc cref="object.Equals(object?)"/>
         public override bool Equals(object obj)
         {

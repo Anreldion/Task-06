@@ -10,167 +10,282 @@ namespace NUnitTestProject
     [TestFixture]
     public class CRUDTests
     {
-        protected DAOFactory DaoFactory { get; } = DAOFactory.GetInstance(@"Data Source=UserPC\SQLEXPRESS; Initial Catalog=SessionResultsDatabase; Integrated Security=true;");
+        DAOFactory Factory;
+        IEnumerable<Gender> genders;
+        IEnumerable<SessionPeriod> periods;
+        IEnumerable<Session> session;
+        IEnumerable<Subject> subject;
+        IEnumerable<Group> groups;
+        IEnumerable<EducationForm> education_forms;
+        IEnumerable<TestForm> test_forms;
 
-        [Test]
-        public void GenderTests()
+        IEnumerable<Student> students;
+
+        [OneTimeSetUp]
+        public void SetUp()
+        {
+            Factory = DAOFactory.GetInstance(@"Data Source=UserPC\SQLEXPRESS; Initial Catalog=SessionResultsDatabase; Integrated Security=true;");
+
+            // Add data to DB if don't exist.
+
+            // Add Gender
+            if (Factory.GetGender().IsExistAsync(new Gender("Man")).Result == false)
+            {
+                Assert.IsTrue(Factory.GetGender().InsertAsync(new Gender("Man")).Result);
+            }
+            genders = Factory.GetGender().ReadAllAsync().Result;
+
+            // Add session period
+            if (Factory.GetSessionPeriod().IsExistAsync(new SessionPeriod("Summer")).Result == false)
+            {
+                Assert.IsTrue(Factory.GetSessionPeriod().InsertAsync(new SessionPeriod("Summer")).Result);
+            }
+            periods = Factory.GetSessionPeriod().ReadAllAsync().Result;
+            // Add session
+            DateTime sessionDateFrom = new DateTime(year: 2020, month: 5, day: 1);
+            DateTime sessionDateTo = new DateTime(year: 2020, month: 5, day: 30);
+            if (Factory.GetSession().IsExistAsync(new Session(periods.Last().Id, sessionDateFrom, sessionDateTo)).Result == false)
+            {
+                Assert.IsTrue(Factory.GetSession().InsertAsync(new Session(periods.Last().Id, sessionDateFrom, sessionDateTo)).Result);
+            }
+            session = Factory.GetSession().ReadAllAsync().Result;
+
+            // Add subject
+            if (Factory.GetSubject().IsExistAsync(new Subject("Math")).Result == false)
+            {
+                Assert.IsTrue(Factory.GetSubject().InsertAsync(new Subject("Math")).Result);
+            }
+            subject = Factory.GetSubject().ReadAllAsync().Result;
+
+            // Add group
+            if (Factory.GetGroup().IsExistAsync(new Group("PE")).Result == false)
+            {
+                Assert.IsTrue(Factory.GetGroup().InsertAsync(new Group("PE")).Result);
+            }
+            groups = Factory.GetGroup().ReadAllAsync().Result;
+
+            // Add education form
+            if (Factory.GetEducationForm().IsExistAsync(new EducationForm("Daytime")).Result == false)
+            {
+                Assert.IsTrue(Factory.GetEducationForm().InsertAsync(new EducationForm("Daytime")).Result);
+            }
+            if (Factory.GetEducationForm().IsExistAsync(new EducationForm("Extramural")).Result == false)
+            {
+                Assert.IsTrue(Factory.GetEducationForm().InsertAsync(new EducationForm("Extramural")).Result);
+            }
+            education_forms = Factory.GetEducationForm().ReadAllAsync().Result;
+
+            // Add test form
+            if (Factory.GetTestForm().IsExistAsync(new TestForm("Exam")).Result == false)
+            {
+                Assert.IsTrue(Factory.GetTestForm().InsertAsync(new TestForm("Exam")).Result);
+            }
+            if (Factory.GetTestForm().IsExistAsync(new TestForm("Credit")).Result == false)
+            {
+                Assert.IsTrue(Factory.GetTestForm().InsertAsync(new TestForm("Credit")).Result);
+            }
+            test_forms = Factory.GetTestForm().ReadAllAsync().Result;
+
+            // Add student
+            DateTime BirthDate = new DateTime(year: 1992, month: 4, day: 28);
+            if (Factory.GetStudent().IsExistAsync(new Student("Andrey", "Samusenko", "Genadievich", genders.Last().Id, BirthDate, groups.Last().Id, education_forms.Last().Id)).Result == false)
+            {
+                Assert.IsTrue(Factory.GetStudent().InsertAsync(new Student("Andrey", "Samusenko", "Genadievich", genders.Last().Id, BirthDate, groups.Last().Id, education_forms.Last().Id)).Result);
+            }
+            students = Factory.GetStudent().ReadAllAsync().Result;
+
+        }
+
+        [TestCase("Man", "Woman")]
+        public void GenderTests(string name, string name_update)
         {
             //Create.
-            Assert.IsTrue(DaoFactory.GetGender().CreateAsync(new Gender("Man")).Result);
-            Assert.IsTrue(DaoFactory.GetGender().CreateAsync(new Gender("Man")).Result);
+            Assert.IsTrue(Factory.GetGender().InsertAsync(new Gender(name)).Result);
 
             //Read All
-            IEnumerable<Gender> gender_list = DaoFactory.GetGender().ReadAllAsync().Result;
-            int max_id = gender_list.Last().Id;
+            IEnumerable<Gender> gender_list = Factory.GetGender().ReadAllAsync().Result;
             Assert.IsNotNull(gender_list);
 
             //Update.
-            Assert.IsTrue(DaoFactory.GetGender().UpdateAsync(new Gender(1, "Woman")).Result);
+            Assert.IsTrue(Factory.GetGender().UpdateAsync(new Gender(gender_list.Last().Id, name_update)).Result);
+
+            //Is exist
+            Assert.IsTrue(Factory.GetGender().IsExistAsync(new Gender(gender_list.Last().Id, name_update)).Result);
 
             //Delete.
-            Assert.IsTrue(DaoFactory.GetGender().DeleteAsync(max_id--).Result);
-            Assert.IsTrue(DaoFactory.GetGender().DeleteAsync(max_id).Result);
+            Assert.IsTrue(Factory.GetGender().DeleteAsync(gender_list.Last().Id).Result);
         }
 
-        [Test]
-        public void GroupTests()
+        [TestCase(10, 7)]
+        public void ResultTests(int actual_mark, int update_mark)
         {
             //Create.
-            Assert.IsTrue(DaoFactory.GetGroup().CreateAsync(new Group("NewGroup")).Result);
+            Assert.IsTrue(Factory.GetResult().InsertAsync(new Result(session.Last().Id, subject.Last().Id, students.Last().Id, actual_mark)).Result);
 
             //Read All
-            IEnumerable<Group> list = DaoFactory.GetGroup().ReadAllAsync().Result;
+            IEnumerable<Result> result_list = Factory.GetResult().ReadAllAsync().Result;
+            Assert.IsNotNull(result_list);
+
+            //Update.
+            Assert.IsTrue(Factory.GetResult().UpdateAsync(new Result(result_list.Last().Id, session.Last().Id, subject.Last().Id, students.Last().Id, update_mark)).Result);
+
+            //Is exist
+            Assert.IsTrue(Factory.GetResult().IsExistAsync(new Result(result_list.Last().Id, session.Last().Id, subject.Last().Id, students.Last().Id, update_mark)).Result);
+
+            //Delete.
+            Assert.IsTrue(Factory.GetResult().DeleteAsync(result_list.Last().Id).Result);
+        }
+
+        [TestCase(2020, 4, 1)]
+        public void SchedulesTests(int year, int month, int day)
+        {
+            DateTime date = new DateTime(year: year, month: month, day: day);
+            DateTime new_date = new DateTime(year: year+1, month: month, day: day);
+            //Create.
+            Assert.IsTrue(Factory.GetSchedule().InsertAsync(new Schedule(date, subject.Last().Id, session.Last().Id, groups.Last().Id, test_forms.Last().Id)).Result);
+
+            //Read All
+            IEnumerable<Schedule> list = Factory.GetSchedule().ReadAllAsync().Result;
             Assert.IsNotNull(list);
 
             //Update.
-            Assert.IsTrue(DaoFactory.GetGroup().UpdateAsync(new Group(list.Last().Id, "NewGroupUpdate")).Result);
+            Assert.IsTrue(Factory.GetSchedule().UpdateAsync(new Schedule(list.Last().Id, new_date, subject.Last().Id, session.Last().Id, groups.Last().Id, education_forms.Last().Id)).Result);
+
+            //Is exist
+            Assert.IsTrue(Factory.GetSchedule().IsExistAsync(new Schedule(list.Last().Id, new_date, subject.Last().Id, session.Last().Id, groups.Last().Id, education_forms.Last().Id)).Result);
 
             //Delete.
-            Assert.IsTrue(DaoFactory.GetGroup().DeleteAsync(list.Last().Id).Result);
+            Assert.IsTrue(Factory.GetSchedule().DeleteAsync(list.Last().Id).Result);
         }
 
-        [Test]
-        public void ResultTests()
+        [TestCase(2020, 4, 1, 2020, 4, 28)]
+        public void SessionsTests(int year_from, int month_from, int day_from, int year_to, int month_to, int day_to)
         {
+            DateTime dateFrom = new DateTime(year: year_from, month: month_from, day: day_from);
+            DateTime dateTo = new DateTime(year: year_to, month: month_to, day: day_to);
             //Create.
-            Assert.IsTrue(DaoFactory.GetResult().CreateAsync(new Result(1, 1, 1, 10)).Result);
+            Assert.IsTrue(Factory.GetSession().InsertAsync(new Session(periods.Last().Id, dateTo, dateFrom)).Result);
 
             //Read All
-            IEnumerable<Result> list = DaoFactory.GetResult().ReadAllAsync().Result;
-            Assert.IsNotNull(list);
+            IEnumerable<Session> session_list = Factory.GetSession().ReadAllAsync().Result;
+            Assert.IsNotNull(session_list);
 
-            //Update.
-            Assert.IsTrue(DaoFactory.GetResult().UpdateAsync(new Result(list.Last().Id, 1, 1, 1, 9)).Result);
+            //Update (Rotate Date).
+            Assert.IsTrue(Factory.GetSession().UpdateAsync(new Session(session_list.Last().Id, periods.Last().Id, dateFrom, dateTo)).Result);
 
             //Delete.
-            Assert.IsTrue(DaoFactory.GetResult().DeleteAsync(3).Result);
+            Assert.IsTrue(Factory.GetSession().DeleteAsync(session_list.Last().Id).Result);
+        }
 
+
+
+        [TestCase("NewGroup")]
+        public void GroupTests(string name)
+        {
+            //Create.
+            Assert.IsTrue(Factory.GetGroup().InsertAsync(new Group(name)).Result);
+
+            //Read All
+            IEnumerable<Group> group_list = Factory.GetGroup().ReadAllAsync().Result;
+            Assert.IsNotNull(group_list);
+
+            //Update.
+            Assert.IsTrue(Factory.GetGroup().UpdateAsync(new Group(group_list.Last().Id, name + "Update")).Result);
+
+            //Delete.
+            Assert.IsTrue(Factory.GetGroup().DeleteAsync(group_list.Last().Id).Result);
+        }
+
+        [TestCase(2020, 4, 1, "Ivan", "Ivanov", "Victorovich")]
+        public void StudentsTests(int year, int month, int day, string name, string surname, string midlename)
+        {
+            DateTime date = new DateTime(year: year, month: month, day: day);
+
+            //Create.
+            Assert.IsTrue(Factory.GetStudent().InsertAsync(new Student(surname, name, midlename, genders.Last().Id, date, groups.Last().Id, education_forms.Last().Id)).Result);
+
+            //Read All
+            IEnumerable<Student> student_list = Factory.GetStudent().ReadAllAsync().Result;
+            Assert.IsNotNull(student_list);
+
+            //Update (Rotate (name-surname))
+            Assert.IsTrue(Factory.GetStudent().UpdateAsync(new Student(student_list.Last().Id, name, surname, midlename, genders.Last().Id, date, groups.Last().Id, education_forms.Last().Id)).Result);
+
+            //Delete.
+            Assert.IsTrue(Factory.GetStudent().DeleteAsync(student_list.Last().Id).Result);
 
         }
 
-        [Test]
-        public void SchedulesTests()
+        [TestCase("NewSubjects")]
+        public void SubjectsTests(string name)
         {
             //Create.
-            Assert.IsTrue(DaoFactory.GetSchedule().CreateAsync(new Schedule(DateTime.Now,1, 1, 1, 1)).Result);
-            //Is exists.
-            Assert.IsNotNull(DaoFactory.GetSchedule().TryReadAsync(1).Result);
-            //Is don't exists.
-            Assert.IsNull(DaoFactory.GetSchedule().TryReadAsync(150).Result);
-            //Update.
-            Assert.IsTrue(DaoFactory.GetSchedule().UpdateAsync(new Schedule(1,DateTime.Now,1, 1, 1, 2)).Result);
-            //Update if don't exists.
-            Assert.IsFalse(DaoFactory.GetSchedule().UpdateAsync(new Schedule(150,DateTime.Now, 1, 1, 1, 150)).Result);
-            //Delete.
-            Assert.IsTrue(DaoFactory.GetSchedule().DeleteAsync(3).Result);
-            //Delete if don't exists.
-            Assert.IsFalse(DaoFactory.GetSchedule().DeleteAsync(150).Result);
+            Assert.IsTrue(Factory.GetSubject().InsertAsync(new Subject(name)).Result);
+
             //Read All
-            Assert.IsNotNull(DaoFactory.GetSchedule().ReadAllAsync().Result);
+            IEnumerable<Subject> subjects_list = Factory.GetSubject().ReadAllAsync().Result;
+            Assert.IsNotNull(subjects_list);
+
+            //Update.
+            Assert.IsTrue(Factory.GetSubject().UpdateAsync(new Subject(subjects_list.Last().Id, name + "Update")).Result);
+
+            //Delete.
+            Assert.IsTrue(Factory.GetSubject().DeleteAsync(subjects_list.Last().Id).Result);
+
         }
 
-        //[Test]
-        //public void SessionsTests()
-        //{
-        //    //Create.
-        //    Assert.IsTrue(DaoFactory.GetSession().CreateAsync(new Session("newSession", DateTime.Now)).Result);
-        //    //Is exists.
-        //    Assert.IsNotNull(DaoFactory.GetSession().TryReadAsync(1).Result);
-        //    //Is don't exists.
-        //    Assert.IsNull(DaoFactory.GetSession().TryReadAsync(150).Result);
-        //    //Update.
-        //    Assert.IsTrue(DaoFactory.GetSession().UpdateAsync(new Session(1,"newSessionUpdate", DateTime.Now)).Result);
-        //    //Update if don't exists.
-        //    Assert.IsFalse(DaoFactory.GetSession().UpdateAsync(new Session(150,"newSessionUpdate", DateTime.Now)).Result);
-        //    //Delete.
-        //    Assert.IsTrue(DaoFactory.GetSession().DeleteAsync(3).Result);
-        //    //Delete if don't exists.
-        //    Assert.IsFalse(DaoFactory.GetSession().DeleteAsync(150).Result);
-        //    //Read All
-        //    Assert.IsNotNull(DaoFactory.GetSession().ReadAllAsync().Result);
-        //}
-
-        [Test]
-        public void StudentsTests()
+        [TestCase("NewTestForm", "UpdateNewTestForm")]
+        public void TestFormsTests(string name, string name_update)
         {
             //Create.
-            Assert.IsTrue(DaoFactory.GetStudent().CreateAsync(new Student("Ivan", "Ivanov",1, DateTime.Now, 1, 1, 1)).Result);
-            //Is exists.
-            Assert.IsNotNull(DaoFactory.GetStudent().TryReadAsync(1).Result);
-            //Is don't exists.
-            Assert.IsNull(DaoFactory.GetStudent().TryReadAsync(150).Result);
-            //Update.
-            Assert.IsTrue(DaoFactory.GetStudent().UpdateAsync(new Student(1, "Petr", "Ivanov", 1, DateTime.Now, 1, 1, 1)).Result);
-            //Update if don't exists.
-            Assert.IsFalse(DaoFactory.GetStudent().UpdateAsync(new Student(150, "Petr", "Ivanov", 1, DateTime.Now, 1, 1, 1)).Result);
-            //Delete.
-            Assert.IsTrue(DaoFactory.GetStudent().DeleteAsync(3).Result);
-            //Delete if don't exists.
-            Assert.IsFalse(DaoFactory.GetStudent().DeleteAsync(150).Result);
+            Assert.IsTrue(Factory.GetTestForm().InsertAsync(new TestForm(name)).Result);
+
             //Read All
-            Assert.IsNotNull(DaoFactory.GetStudent().ReadAllAsync().Result);
+            IEnumerable<TestForm> testForm_list = Factory.GetTestForm().ReadAllAsync().Result;
+            Assert.IsNotNull(testForm_list);
+
+            //Update.
+            Assert.IsTrue(Factory.GetTestForm().UpdateAsync(new TestForm(testForm_list.Last().Id, name_update)).Result);
+
+            //Delete.
+            Assert.IsTrue(Factory.GetTestForm().DeleteAsync(testForm_list.Last().Id).Result);
+
         }
 
-        [Test]
-        public void SubjectsTests()
+        [TestCase("NewEducationForm", "UpdateNewEducationForm")]
+        public void EducationFormsTests(string name, string name_update)
         {
             //Create.
-            Assert.IsTrue(DaoFactory.GetSubject().CreateAsync(new Subject("NewSubjects")).Result);
-            //Is exists.
-            Assert.IsNotNull(DaoFactory.GetSubject().TryReadAsync(1).Result);
-            //Is don't exists.
-            Assert.IsNull(DaoFactory.GetSubject().TryReadAsync(4).Result);
-            //Update.
-            Assert.IsTrue(DaoFactory.GetSubject().UpdateAsync(new Subject(3, "UpdateNewSubjects")).Result);
-            //Update if don't exists.
-            Assert.IsFalse(DaoFactory.GetSubject().UpdateAsync(new Subject(4, "Update")).Result);
-            //Delete.
-            Assert.IsTrue(DaoFactory.GetSubject().DeleteAsync(3).Result);
-            //Delete if don't exists.
-            Assert.IsFalse(DaoFactory.GetSubject().DeleteAsync(4).Result);
+            Assert.IsTrue(Factory.GetEducationForm().InsertAsync(new EducationForm(name)).Result);
+
             //Read All
-            Assert.IsNotNull(DaoFactory.GetSubject().ReadAllAsync().Result);
+            IEnumerable<EducationForm> forms_list = Factory.GetEducationForm().ReadAllAsync().Result;
+            Assert.IsNotNull(forms_list);
+
+            //Update.
+            Assert.IsTrue(Factory.GetEducationForm().UpdateAsync(new EducationForm(forms_list.Last().Id, name_update)).Result);
+
+            //Delete.
+            Assert.IsTrue(Factory.GetEducationForm().DeleteAsync(forms_list.Last().Id).Result);
+
         }
 
-        [Test]
-        public void TestFormsTests()
+        [TestCase("NewSessionPeriod", "UpdateNewSessionPeriod")]
+        public void SessionPeriodsTests(string name, string name_update)
         {
             //Create.
-            Assert.IsTrue(DaoFactory.GetTestForm().CreateAsync(new TestForm("NewTestForm")).Result);
-            //Is exists.
-            Assert.IsNotNull(DaoFactory.GetTestForm().TryReadAsync(1).Result);
-            //Is don't exists.
-            Assert.IsNull(DaoFactory.GetTestForm().TryReadAsync(4).Result);
-            //Update.
-            Assert.IsTrue(DaoFactory.GetTestForm().UpdateAsync(new TestForm(3, "UpdateNewTestForm")).Result);
-            //Update if don't exists.
-            Assert.IsFalse(DaoFactory.GetTestForm().UpdateAsync(new TestForm(4, "Update")).Result);
-            //Delete.
-            Assert.IsTrue(DaoFactory.GetTestForm().DeleteAsync(3).Result);
-            //Delete if don't exists.
-            Assert.IsFalse(DaoFactory.GetTestForm().DeleteAsync(4).Result);
+            Assert.IsTrue(Factory.GetSessionPeriod().InsertAsync(new SessionPeriod(name)).Result);
+
             //Read All
-            Assert.IsNotNull(DaoFactory.GetTestForm().ReadAllAsync().Result);
+            IEnumerable<SessionPeriod> period_list = Factory.GetSessionPeriod().ReadAllAsync().Result;
+            Assert.IsNotNull(period_list);
+
+            //Update.
+            Assert.IsTrue(Factory.GetSessionPeriod().UpdateAsync(new SessionPeriod(period_list.Last().Id, name_update)).Result);
+
+            //Delete.
+            Assert.IsTrue(Factory.GetSessionPeriod().DeleteAsync(period_list.Last().Id).Result);
+
         }
 
     }

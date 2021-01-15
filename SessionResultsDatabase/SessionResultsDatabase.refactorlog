@@ -56,4 +56,18 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="EducationFormId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="7c0b017b-d14a-41ec-a21e-6a153eeedd4d" ChangeDateTime="01/15/2021 11:47:26">
+    <Property Name="ElementName" Value="[dbo].[Sessions].[From]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Sessions]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="DateFrom" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="47a9277c-d601-4d9e-a77e-4b3451609b44" ChangeDateTime="01/15/2021 11:47:29">
+    <Property Name="ElementName" Value="[dbo].[Sessions].[To]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Sessions]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="DateTo" />
+  </Operation>
 </Operations>

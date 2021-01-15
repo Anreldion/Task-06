@@ -5,15 +5,14 @@ namespace DataAccessLayer.Data_Access_Object
     /// <summary>
     /// 
     /// </summary>
-    public class DAOSession : DAO<Session>
+    public class DAOSessionPeriod : DAO<SessionPeriod>
     {
         /// <summary>
         /// 
         /// </summary>
         /// <param name="connectionString"></param>
-        public DAOSession(string connectionString) : base(connectionString)
+        public DAOSessionPeriod(string connectionString) : base(connectionString)
         {
-
         }
     }
 
