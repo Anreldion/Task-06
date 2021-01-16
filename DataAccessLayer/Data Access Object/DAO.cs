@@ -9,13 +9,18 @@ namespace DataAccessLayer.Data_Access_Object
 {
     public abstract class DAO<T>
     {
+        /// <summary>
+        /// 
+        /// </summary>
         private readonly string connectionString;
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="connectionString"></param>
         protected DAO(string connectionString)
         {
             this.connectionString = connectionString;
         }
-
         /// <summary>
         /// 
         /// </summary>
