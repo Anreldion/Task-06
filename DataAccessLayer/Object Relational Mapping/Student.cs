@@ -81,5 +81,9 @@ namespace DataAccessLayer.Object_Relational_Mapping
         {
             return HashCode.Combine(Id, Name, Surname, GenderId, DateofBirth, GroupId, EducationFormId);
         }
+        public override string ToString()
+        {
+            return $"Id:{Id}, {Name} {Surname} {MiddleName}";
+        }
     }
 }
