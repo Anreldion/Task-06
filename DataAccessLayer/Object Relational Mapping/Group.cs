@@ -2,6 +2,9 @@
 
 namespace DataAccessLayer.Object_Relational_Mapping
 {
+    /// <summary>
+    /// Class describes Group row
+    /// </summary>
     public class Group
     {
         /// <summary>
@@ -19,7 +22,7 @@ namespace DataAccessLayer.Object_Relational_Mapping
         {
         }
         /// <summary>
-        /// 
+        /// Class constructor <see cref="Group"/>
         /// </summary>
         /// <param name="name">Group name</param>
         public Group(string name)
@@ -27,7 +30,7 @@ namespace DataAccessLayer.Object_Relational_Mapping
             Name = name;
         }
         /// <summary>
-        /// 
+        /// Class constructor <see cref="Group"/>
         /// </summary>
         /// <param name="id">Group ID</param>
         /// <param name="name">Group name</param>

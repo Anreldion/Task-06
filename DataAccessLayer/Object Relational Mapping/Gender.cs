@@ -2,6 +2,9 @@
 
 namespace DataAccessLayer.Object_Relational_Mapping
 {
+    /// <summary>
+    /// Class describes Gender row
+    /// </summary>
     public class Gender
     {
         /// <summary>
@@ -19,7 +22,7 @@ namespace DataAccessLayer.Object_Relational_Mapping
         {
         }
         /// <summary>
-        /// 
+        /// Class constructor <see cref="Gender"/>
         /// </summary>
         /// <param name="name">Gender name</param>
         public Gender(string name)
@@ -27,7 +30,7 @@ namespace DataAccessLayer.Object_Relational_Mapping
             Name = name;
         }
         /// <summary>
-        /// 
+        /// Class constructor <see cref="Gender"/>
         /// </summary>
         /// <param name="id">Gender ID</param>
         /// <param name="name">Gender name</param>

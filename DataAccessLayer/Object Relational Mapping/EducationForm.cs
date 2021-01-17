@@ -3,7 +3,7 @@
 namespace DataAccessLayer.Object_Relational_Mapping
 {
     /// <summary>
-    /// 
+    /// Class describes education form row
     /// </summary>
     public class EducationForm
     {
@@ -22,15 +22,15 @@ namespace DataAccessLayer.Object_Relational_Mapping
         {
         }
         /// <summary>
-        /// 
+        /// Class constructor <see cref="EducationForm"/>
         /// </summary>
-        /// <param name="name">Group name</param>
+        /// <param name="name">Form of education name</param>
         public EducationForm(string name)
         {
             Name = name;
         }
         /// <summary>
-        /// 
+        /// Class constructor <see cref="EducationForm"/>
         /// </summary>
         /// <param name="id">Form of education ID</param>
         /// <param name="name">Form of education name</param>

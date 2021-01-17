@@ -2,6 +2,9 @@
 
 namespace DataAccessLayer.Object_Relational_Mapping
 {
+    /// <summary>
+    /// Class describes session period row
+    /// </summary>
     public class SessionPeriod
     {
         /// <summary>
@@ -9,7 +12,7 @@ namespace DataAccessLayer.Object_Relational_Mapping
         /// </summary>
         public int Id { get; set; }
         /// <summary>
-        /// Form of education name.
+        /// Session period name.
         /// </summary>
         public string Name { get; set; }
         /// <summary>
@@ -19,18 +22,18 @@ namespace DataAccessLayer.Object_Relational_Mapping
         {
         }
         /// <summary>
-        /// 
+        /// Class constructor <see cref="SessionPeriod"/>
         /// </summary>
-        /// <param name="name">Group name</param>
+        /// <param name="name">Session period name.</param>
         public SessionPeriod(string name)
         {
             Name = name;
         }
         /// <summary>
-        /// 
+        /// Class constructor <see cref="SessionPeriod"/>
         /// </summary>
-        /// <param name="id">Form of education ID</param>
-        /// <param name="name">Form of education name</param>
+        /// <param name="id">ID</param>
+        /// <param name="name">Session period name.</param>
         public SessionPeriod(int id, string name)
         {
             Id = id;

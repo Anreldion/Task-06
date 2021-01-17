@@ -3,11 +3,24 @@ using System.Linq;
 
 namespace BusinessLogicLayer.DeductibleStudent
 {
+    /// <summary>
+    /// Class for the formation of tables in groups with students to be expelled.
+    /// </summary>
     public class DeductibleStudentsReport : Report
     {
+        /// <summary>
+        /// Class constructor <see cref="DeductibleStudentsReport"/>
+        /// </summary>
+        /// <param name="connectionString">Database connection string</param>
         public DeductibleStudentsReport(string connectionString) : base(connectionString)
         {
         }
+        /// <summary>
+        /// Get a list of tables by group. The tables contain the full names of the students to be expelled.
+        /// </summary>
+        /// <param name="sessionId"></param>
+        /// <param name="mark"></param>
+        /// <returns></returns>
         public IEnumerable<DeductibleStudentsTable> GetReport(int sessionId, int mark)
         {
             string[] GroupNames = GetGroupNames().Distinct().ToArray();
@@ -19,6 +32,13 @@ namespace BusinessLogicLayer.DeductibleStudent
 
             return list;
         }
+        /// <summary>
+        /// Get information about the student to be expelled.
+        /// </summary>
+        /// <param name="sessionId"></param>
+        /// <param name="mark"></param>
+        /// <param name="groupName"></param>
+        /// <returns>List with <see cref="DeductibleStudentUnit"/></returns>
         private IEnumerable<DeductibleStudentUnit> GetStudents(int sessionId, int mark, string groupName)
         {
             IEnumerable<(int, int, int)> StudentIdAndFormEducationIdAndGroupID = GetStudentIdAndFormEducationIdAndGroupID(sessionId, 6).Distinct();
@@ -32,14 +52,24 @@ namespace BusinessLogicLayer.DeductibleStudent
                                                                select ads;
             return deductibleStudent;
         }
-        private IEnumerable<(int, int, int)> GetStudentIdAndFormEducationIdAndGroupID(int sessionId, int mark)// => Results.Where(result => result.Mark < mark && result.SessionId == sessionId).Select(results, group => results.StudentId).Distinct();
+        /// <summary>
+        /// Get student IDs to drop out.
+        /// </summary>
+        /// <param name="sessionId">ID session</param>
+        /// <param name="зassing_score">Passing score</param>
+        /// <returns>IEnumerable<(int StudentId, int GroupId, int EducationFormId)></returns>
+        private IEnumerable<(int, int, int)> GetStudentIdAndFormEducationIdAndGroupID(int sessionId, int зassing_score)// => Results.Where(result => result.Mark < mark && result.SessionId == sessionId).Select(results, group => results.StudentId).Distinct();
         {
             return from result in Results
                    join studene in Students on result.StudentId equals studene.Id
                    join ed_form in EducationForms on studene.EducationFormId equals ed_form.Id
-                   where result.Mark < mark && result.SessionId == sessionId
+                   where result.Mark < зassing_score && result.SessionId == sessionId
                    select (result.StudentId, studene.GroupId, ed_form.Id);
         }
+        /// <summary>
+        /// Get unique group names
+        /// </summary>
+        /// <returns>Array with group names</returns>
         public string[] GetGroupNames() => Groups.Select(g => g.Name).Distinct().ToArray();
     }
 }

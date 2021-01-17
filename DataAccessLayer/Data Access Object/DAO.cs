@@ -7,25 +7,30 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Data_Access_Object
 {
+    /// <summary>
+    /// CRUD functionality.
+    /// </summary>
+    /// <typeparam name="T">ORM</typeparam>
     public abstract class DAO<T>
     {
         /// <summary>
-        /// 
+        /// Class constructor <see cref="DAO{T}"/>
         /// </summary>
-        private readonly string connectionString;
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="connectionString"></param>
+        /// <param name="connectionString">Database connection string</param>
         protected DAO(string connectionString)
         {
             this.connectionString = connectionString;
         }
         /// <summary>
-        /// 
+        /// Database connection string
         /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
+        private readonly string connectionString;
+
+        /// <summary>
+        /// Checking an object for existence.
+        /// </summary>
+        /// <param name="data">Data object</param>
+        /// <returns>true if exist, otherwise false</returns>
         public async Task<bool> IsExistAsync(T data)
         {
             List<string> columns = new List<string>();
@@ -76,10 +81,10 @@ namespace DataAccessLayer.Data_Access_Object
         }
 
         /// <summary>
-        /// 
+        /// Add data to database table.
         /// </summary>
         /// <param name="data"></param>
-        /// <returns></returns>
+        /// <returns>true if successful, otherwise false</returns>
         public async Task<bool> InsertAsync(T data)
         {
             List<string> columns = new List<string>();
@@ -118,10 +123,10 @@ namespace DataAccessLayer.Data_Access_Object
         }
 
         /// <summary>
-        /// 
+        /// Get data from a table by ID
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">ID</param>
+        /// <returns>Data(T)</returns>
         public async Task<T> ReadAsync(int id)
         {
             try
@@ -161,9 +166,9 @@ namespace DataAccessLayer.Data_Access_Object
         }
 
         /// <summary>
-        /// 
+        /// Get all data from a table.
         /// </summary>
-        /// <returns></returns>
+        /// <returns><IEnumerable<T>></returns>
         public async Task<IEnumerable<T>> ReadAllAsync()
         {
             try
@@ -202,10 +207,10 @@ namespace DataAccessLayer.Data_Access_Object
         }
 
         /// <summary>
-        /// 
+        /// Update a record in a database table
         /// </summary>
         /// <param name="data"></param>
-        /// <returns></returns>
+        /// <returns>true if successful, otherwise false</returns>
         public async Task<bool> UpdateAsync(T data)
         {
             List<string> columns = new List<string>();
@@ -243,10 +248,10 @@ namespace DataAccessLayer.Data_Access_Object
         }
 
         /// <summary>
-        /// 
+        /// Delete record from database table
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">ID</param>
+        /// <returns>true if successful, otherwise false</returns>
         public async Task<bool> DeleteAsync(int id)
         {
             try
