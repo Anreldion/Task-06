@@ -2,13 +2,10 @@
 using BusinessLogicLayer.PointsByGroup;
 using BusinessLogicLayer.SessionResult;
 using OfficeOpenXml;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-using static BusinessLogicLayer.DeductibleStudent.DeductibleStudentsReport;
 
 namespace BusinessLogicLayer
 {
@@ -23,7 +20,7 @@ namespace BusinessLogicLayer
             {
                 ExcelWorkbook excelWorkBook = excelPackage.Workbook;
 
-                
+
                 foreach (var data in data_table)
                 {
                     ExcelWorksheet workSheet = excelPackage.Workbook.Worksheets.Add(data.GroupName);
@@ -63,7 +60,7 @@ namespace BusinessLogicLayer
                         workSheet.Cells["A" + i.ToString() + ":E" + i.ToString()].Style.WrapText = true;
                         workSheet.Cells["E" + i.ToString()].Style.Border.Right.Style = OfficeOpenXml.Style.ExcelBorderStyle.Medium;
 
-                        workSheet.Cells[i, 1].Value = i-1;
+                        workSheet.Cells[i, 1].Value = i - 1;
                         workSheet.Cells[i, 2].Value = data.deductibleStudents.ToList()[j].Surname;
                         workSheet.Cells[i, 3].Value = data.deductibleStudents.ToList()[j].Name;
                         workSheet.Cells[i, 4].Value = data.deductibleStudents.ToList()[j].MiddleName;
@@ -71,50 +68,43 @@ namespace BusinessLogicLayer
                     }
                     workSheet.Cells["A" + i.ToString() + ":E" + i.ToString()].Style.Border.Top.Style = OfficeOpenXml.Style.ExcelBorderStyle.Medium;
                 }
-                
+
                 excelPackage.Save();
                 Process.Start(new ProcessStartInfo("explorer.exe", "/open, " + filePath));
             }
         }
 
-        public static void CreateReportFile1(IEnumerable<DeductibleStudentsTable> data_table, string filePath)
-        {
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            ExcelPackage excel = new ExcelPackage();
-            ExcelWorksheet workSheet = null;
-            string[] Headers = { "Surname", "Name", "MiddleName", "EducationForms" };
-            foreach (var data in data_table)
-            {
-                int currentRow = 1;
-                workSheet = excel.Workbook.Worksheets.Add(data.GroupName);
-                workSheet.Cells[currentRow, currentRow].Value = $"{data.GroupName} students to be expelled";
-                workSheet.Cells[currentRow, currentRow, currentRow, Headers.Length].Merge = true;
-                for (int i = 0; i < Headers.Length; i++)
-                {
-                    workSheet.Cells[currentRow, ++i].Value = Headers[--i];
-                }
-                for (int i = ++currentRow, j = 0; j < data.deductibleStudents.Count(); i++, j++)
-                {
-                    workSheet.Cells[i, 1].Value = data.deductibleStudents.ToList()[j].Surname;
-                    workSheet.Cells[i, 2].Value = data.deductibleStudents.ToList()[j].Name;
-                    workSheet.Cells[i, 3].Value = data.deductibleStudents.ToList()[j].MiddleName;
-                    workSheet.Cells[i, 3].Value = data.deductibleStudents.ToList()[j].EducationForm;
-                }
-            }
-
-            using FileStream stream = File.Create(filePath);
-            stream?.Close();
-            File.WriteAllBytes(filePath, excel.GetAsByteArray());
-
-            excel?.Dispose();
-            workSheet?.Dispose();
-        }
-
         public static void CreateReportFile(IEnumerable<PointsByGroupTable> data_table, string filePath)
         {
+            FileWorker.DeleteFileIfExists(filePath);
+            FileInfo file = new FileInfo(filePath);
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            using (ExcelPackage excelPackage = new ExcelPackage(file))
+            {
+                ExcelWorkbook excelWorkBook = excelPackage.Workbook;
+                foreach (var data in data_table)
+                {
+
+                }
+                excelPackage.Save();
+                Process.Start(new ProcessStartInfo("explorer.exe", "/open, " + filePath));
+            }
         }
         public static void CreateReportFile(IEnumerable<SessionResultTable> data_table, string filePath)
         {
-        }
+            FileWorker.DeleteFileIfExists(filePath);
+            FileInfo file = new FileInfo(filePath);
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            using (ExcelPackage excelPackage = new ExcelPackage(file))
+            {
+                ExcelWorkbook excelWorkBook = excelPackage.Workbook;
+                foreach (var data in data_table)
+                {
+
+                }
+                excelPackage.Save();
+                Process.Start(new ProcessStartInfo("explorer.exe", "/open, " + filePath));
+            }
         }
     }
+}
