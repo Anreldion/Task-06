@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BusinessLogicLayer.SessionResult
 {
-    class SessionResultUnit
+    public class SessionResultUnit
     {
     }
 }

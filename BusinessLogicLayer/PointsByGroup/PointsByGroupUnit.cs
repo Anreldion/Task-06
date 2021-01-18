@@ -5,17 +5,17 @@ using System.Text;
 namespace BusinessLogicLayer.PointsByGroup
 {
     /// <summary>
-    /// 
+    /// The class contains information about the average / minimum / maximum score for the group
     /// </summary>
     public class PointsByGroupUnit
     {
         /// <summary>
-        /// 
+        /// Class constructor <see cref="PointsByGroupUnit"/>
         /// </summary>
-        /// <param name="groupName"></param>
-        /// <param name="minimumScore"></param>
-        /// <param name="averageScore"></param>
-        /// <param name="maximumScore"></param>
+        /// <param name="groupName">Group name</param>
+        /// <param name="minimumScore">Minimum score</param>
+        /// <param name="averageScore">Average score</param>
+        /// <param name="maximumScore">Maximum score</param>
         public PointsByGroupUnit(string groupName, double minimumScore, double averageScore, double maximumScore)
         {
             GroupName = groupName;
