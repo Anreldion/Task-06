@@ -124,6 +124,8 @@ namespace BusinessLogicLayer
                         workSheet.Cells["A" + i.ToString() + ":E" + i.ToString()].Style.Border.Bottom.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
                         workSheet.Cells["A" + i.ToString() + ":E" + i.ToString()].Style.WrapText = true;
                         workSheet.Cells["E" + i.ToString()].Style.Border.Right.Style = OfficeOpenXml.Style.ExcelBorderStyle.Medium;
+                        workSheet.Row(i).Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+                        workSheet.Row(i).Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
 
                         workSheet.Cells[i, 1].Value = i - 1;
                         workSheet.Cells[i, 2].Value = data.pointsByGroups.ToList()[j].GroupName;

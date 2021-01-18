@@ -57,9 +57,10 @@ namespace BusinessLogicLayer.PointsByGroup
         {
             IEnumerable<(string, DateTime, DateTime)> name = from sessions in Sessions
                                                              join period in SessionPeriods on sessions.SessionPeriodId equals period.Id
+                                                             where sessionId == sessions.Id
                                                              select (period.Name, sessions.DateFrom, sessions.DateTo);
 
-            return $"{name.Last().Item1} ({name.Last().Item2.ToString("dd.MM.yyyy")} - {name.Last().Item3.ToString("dd.MM.yyyy")})";
+            return $"{name.Last().Item1} ({name.Last().Item2.ToString("dd.MM.yy")} - {name.Last().Item3.ToString("dd.MM.yy")})";
         }
 
     }

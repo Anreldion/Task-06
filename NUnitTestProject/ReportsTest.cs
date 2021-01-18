@@ -31,7 +31,7 @@ namespace NUnitTestProject
     [TestFixture]
     public class PointsByGroupReportTest
     {
-        protected const string PathToReport = @"PointsByGroupReportxlsx";
+        protected const string PathToReport = @"PointsByGroupReport.xlsx";
         const string ConnectionString = @"Data Source=UserPC\SQLEXPRESS; Initial Catalog=SessionResultsDatabase; Integrated Security=true;";
         private static PointsByGroupReport Report { get; } = new PointsByGroupReport(ConnectionString);
 
