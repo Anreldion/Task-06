@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace BusinessLogicLayer.PointsByGroup
@@ -18,29 +19,20 @@ namespace BusinessLogicLayer.PointsByGroup
 
         public IEnumerable<PointsByGroupTable> GetReport()
         {
-            string[] GroupNames = GetGroupNames();
-            int[] AllSessionId = GetSessionID();
-            int[] AllMark = GetAllMark(1);
+            IEnumerable<(int, int)> SessionIdAndGroupId = from schedules in Schedules
+                                                          select (schedules.SessionId, schedules.GroupId);
+            SessionIdAndGroupId = SessionIdAndGroupId.Distinct();
+            IEnumerable<int> AllSessionsId = from s in SessionIdAndGroupId
+                                             select (s.Item1);
+            AllSessionsId = AllSessionsId.Distinct();
+            List<PointsByGroupUnit> listPointsByGroupUnit = SessionIdAndGroupId.Select(s => GetPointsByGroup(s.Item1, s.Item2)).ToList();
+            List<PointsByGroupTable> listPointsByGroupTable = new List<PointsByGroupTable>();
 
+            listPointsByGroupTable = AllSessionsId.Select(s => new PointsByGroupTable(SelectPointsByGroup(listPointsByGroupUnit, s), GetSessionPeriodName(s))).ToList();
 
-            //IEnumerable<(double, double, double, int, int)> info = from 
-
-            List<PointsByGroupTable> list = new List<PointsByGroupTable>();
-
-
-
-            return list;
+            return listPointsByGroupTable;
         }
-
-        public string[] GetGroupNames() => Groups.Select(g => g.Name).Distinct().ToArray();
-        public int[] GetSessionID() => Sessions.Select(s => s.Id).Distinct().ToArray();
-        public int[] GetAllMark(int sessionId) => Results.Where(r => r.SessionId == sessionId).Select(r => r.Mark).ToArray();
-        public int[] GetAllStudentId(int groupId) => Students.Where(s => s.GroupId == groupId).Select(s => s.Id).ToArray();
-        public double GetMinimumMark(int sessionId, int groupId)
-        {
-            return 1;
-        }
-        PointsByGroupUnit GetPoints(int sessionId, int groupId)
+        PointsByGroupUnit GetPointsByGroup(int sessionId, int groupId)
         {
             IEnumerable<int> AllMark = from result in Results
                                        join students in Students on result.StudentId equals students.Id
@@ -51,9 +43,24 @@ namespace BusinessLogicLayer.PointsByGroup
             double max = AllMark.Max(max => max);
             double averenge = AllMark.Average();
 
-            string groupName = Groups.Where(g => g.Id == groupId).Select(g => g.Name).Distinct().ToString();
+            string groupName = Groups.FirstOrDefault(g => g.Id == groupId)?.Name;
 
-            return new PointsByGroupUnit(groupName, min, averenge, max);
+            return new PointsByGroupUnit(groupName, min, averenge, max, sessionId);
         }
+        List<PointsByGroupUnit> SelectPointsByGroup(List<PointsByGroupUnit> list, int sessionId)
+        {
+            List<PointsByGroupUnit> rlist = list.Where(s => s.SessionId == sessionId).ToList();
+            return rlist;
+        }
+
+        string GetSessionPeriodName(int sessionId)
+        {
+            IEnumerable<(string, DateTime, DateTime)> name = from sessions in Sessions
+                                                             join period in SessionPeriods on sessions.SessionPeriodId equals period.Id
+                                                             select (period.Name, sessions.DateFrom, sessions.DateTo);
+
+            return $"{name.Last().Item1} ({name.Last().Item2.ToString("dd.MM.yyyy")} - {name.Last().Item3.ToString("dd.MM.yyyy")})";
+        }
+
     }
 }

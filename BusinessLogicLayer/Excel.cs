@@ -11,6 +11,17 @@ namespace BusinessLogicLayer
 {
     public class Excel
     {
+
+        static void SetHeaderStyle(ExcelWorksheet workSheet, int row)
+        {
+            workSheet.Row(row).Style.WrapText = true;
+            workSheet.Row(row).Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+            workSheet.Row(row).Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
+            workSheet.Row(row).Height = (double)30;
+
+        }
+
+
         public static void CreateReportFile(IEnumerable<DeductibleStudentsTable> data_table, string filePath)
         {
             FileWorker.DeleteFileIfExists(filePath);
@@ -25,17 +36,13 @@ namespace BusinessLogicLayer
                 {
                     ExcelWorksheet workSheet = excelPackage.Workbook.Worksheets.Add(data.GroupName);
 
-                    workSheet.Row(1).Style.WrapText = true;
-                    workSheet.Row(1).Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
-                    workSheet.Row(1).Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
+                    SetHeaderStyle(workSheet, 1);
 
-                    double widthTest = 0.71;
-                    workSheet.Row(1).Height = (double)30;
-                    workSheet.Column(1).Width = (double)4.14 + widthTest;
-                    workSheet.Column(2).Width = 14 + widthTest;
-                    workSheet.Column(3).Width = 16 + widthTest;
-                    workSheet.Column(4).Width = 16 + widthTest;
-                    workSheet.Column(5).Width = 10.29 + widthTest;
+                    workSheet.Column(1).Width = (double)4;
+                    workSheet.Column(2).Width = 14;
+                    workSheet.Column(3).Width = 16;
+                    workSheet.Column(4).Width = 16;
+                    workSheet.Column(5).Width = 10;
 
                     workSheet.Cells["A1:E1"].Style.Font.Size = 10;
                     workSheet.Cells["A1:E1"].Style.Font.Name = "Arial Cyr";
@@ -84,7 +91,47 @@ namespace BusinessLogicLayer
                 ExcelWorkbook excelWorkBook = excelPackage.Workbook;
                 foreach (var data in data_table)
                 {
+                    ExcelWorksheet workSheet = excelPackage.Workbook.Worksheets.Add(data.SessionPeriod);
 
+                    SetHeaderStyle(workSheet, 1);
+
+                    workSheet.Column(1).Width = 4;
+                    workSheet.Column(2).Width = 15;
+                    workSheet.Column(3).Width = 10;
+                    workSheet.Column(4).Width = 10;
+                    workSheet.Column(5).Width = 10;
+
+                    workSheet.Cells["A1:E1"].Style.Font.Size = 10;
+                    workSheet.Cells["A1:E1"].Style.Font.Name = "Arial Cyr";
+                    workSheet.Cells["A1:E1"].Style.Font.Bold = true;
+                    workSheet.Cells["A1:E1"].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Medium);
+                    workSheet.Cells["B1:D1"].Style.Border.Right.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
+                    workSheet.Cells["B1:D1"].Style.Border.Left.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
+
+                    workSheet.Cells[1, 1].Value = "№ ";
+                    workSheet.Cells[1, 2].Value = "Group Name";
+                    workSheet.Cells[1, 3].Value = "Minimum Score";
+                    workSheet.Cells[1, 4].Value = "Average Score";
+                    workSheet.Cells[1, 5].Value = "Maximum Score";
+
+                    int i = 2;
+                    for (int j = 0; j < data.pointsByGroups.Count(); i++, j++)
+                    {
+                        workSheet.Cells["A" + i.ToString() + ":E" + i.ToString()].Style.Font.Size = 10;
+                        workSheet.Cells["A" + i.ToString() + ":E" + i.ToString()].Style.Font.Name = "Arial Cyr";
+                        workSheet.Cells["A" + i.ToString() + ":E" + i.ToString()].Style.Border.Right.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
+                        workSheet.Cells["A" + i.ToString() + ":E" + i.ToString()].Style.Border.Left.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
+                        workSheet.Cells["A" + i.ToString() + ":E" + i.ToString()].Style.Border.Bottom.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
+                        workSheet.Cells["A" + i.ToString() + ":E" + i.ToString()].Style.WrapText = true;
+                        workSheet.Cells["E" + i.ToString()].Style.Border.Right.Style = OfficeOpenXml.Style.ExcelBorderStyle.Medium;
+
+                        workSheet.Cells[i, 1].Value = i - 1;
+                        workSheet.Cells[i, 2].Value = data.pointsByGroups.ToList()[j].GroupName;
+                        workSheet.Cells[i, 3].Value = data.pointsByGroups.ToList()[j].MinimumScore;
+                        workSheet.Cells[i, 4].Value = data.pointsByGroups.ToList()[j].AverageScore;
+                        workSheet.Cells[i, 5].Value = data.pointsByGroups.ToList()[j].MaximumScore;
+                    }
+                    workSheet.Cells["A" + i.ToString() + ":E" + i.ToString()].Style.Border.Top.Style = OfficeOpenXml.Style.ExcelBorderStyle.Medium;
                 }
                 excelPackage.Save();
                 Process.Start(new ProcessStartInfo("explorer.exe", "/open, " + filePath));
@@ -100,6 +147,7 @@ namespace BusinessLogicLayer
                 ExcelWorkbook excelWorkBook = excelPackage.Workbook;
                 foreach (var data in data_table)
                 {
+                    
 
                 }
                 excelPackage.Save();

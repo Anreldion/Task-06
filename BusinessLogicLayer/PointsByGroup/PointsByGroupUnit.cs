@@ -16,12 +16,14 @@ namespace BusinessLogicLayer.PointsByGroup
         /// <param name="minimumScore">Minimum score</param>
         /// <param name="averageScore">Average score</param>
         /// <param name="maximumScore">Maximum score</param>
-        public PointsByGroupUnit(string groupName, double minimumScore, double averageScore, double maximumScore)
+        /// <param name="sessionId"></param>
+        public PointsByGroupUnit(string groupName, double minimumScore, double averageScore, double maximumScore, int sessionId)
         {
             GroupName = groupName;
             MinimumScore = minimumScore;
             AverageScore = averageScore;
             MaximumScore = maximumScore;
+            SessionId = sessionId;
         }
 
         /// <summary>
@@ -40,6 +42,10 @@ namespace BusinessLogicLayer.PointsByGroup
         /// Maximum score
         /// </summary>
         public double MaximumScore { get; set; }
+        /// <summary>
+        /// Session ID
+        /// </summary>
+        public int SessionId { get; set; }
         /// <inheritdoc cref="object.Equals(object?)"/>
         public override bool Equals(object obj)
         {
@@ -47,12 +53,13 @@ namespace BusinessLogicLayer.PointsByGroup
                    GroupName == table.GroupName &&
                    MinimumScore == table.MinimumScore &&
                    AverageScore == table.AverageScore &&
+                   SessionId == table.SessionId &&
                    MaximumScore == table.MaximumScore;
         }
         /// <inheritdoc cref="object.GetHashCode"/>
         public override int GetHashCode()
         {
-            return HashCode.Combine(GroupName, MinimumScore, AverageScore, MaximumScore);
+            return HashCode.Combine(GroupName, MinimumScore, AverageScore, MaximumScore, SessionId);
         }
     }
 }
