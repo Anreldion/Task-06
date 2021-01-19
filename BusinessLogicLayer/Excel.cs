@@ -9,19 +9,30 @@ using System.Linq;
 
 namespace BusinessLogicLayer
 {
+    /// <summary>
+    /// Class for generating .xlxs reports.
+    /// </summary>
     public class Excel
     {
-
-        static void SetHeaderStyle(ExcelWorksheet workSheet, int row)
+        /// <summary>
+        /// Set header style
+        /// </summary>
+        /// <param name="workSheet"></param>
+        /// <param name="row"></param>
+        private static void SetHeaderStyle(ExcelWorksheet workSheet, int row)
         {
             workSheet.Row(row).Style.WrapText = true;
             workSheet.Row(row).Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
             workSheet.Row(row).Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
-            workSheet.Row(row).Height = (double)30;
+            workSheet.Row(row).Height = 30;
 
         }
 
-
+        /// <summary>
+        /// Form a list of students to be expelled, grouped by group.
+        /// </summary>
+        /// <param name="data_table">List contains <see cref="DeductibleStudentsTable"/></param>
+        /// <param name="filePath">The path to the file</param>
         public static void CreateReportFile(IEnumerable<DeductibleStudentsTable> data_table, string filePath)
         {
             FileWorker.DeleteFileIfExists(filePath);
@@ -38,7 +49,7 @@ namespace BusinessLogicLayer
 
                     SetHeaderStyle(workSheet, 1);
 
-                    workSheet.Column(1).Width = (double)4;
+                    workSheet.Column(1).Width = 4;
                     workSheet.Column(2).Width = 14;
                     workSheet.Column(3).Width = 16;
                     workSheet.Column(4).Width = 16;
@@ -80,7 +91,11 @@ namespace BusinessLogicLayer
                 Process.Start(new ProcessStartInfo("explorer.exe", "/open, " + filePath));
             }
         }
-
+        /// <summary>
+        /// For each session, display the xlsx pivot table with the average / minimum / maximum score for each group.
+        /// </summary>
+        /// <param name="data_table">List contains <see cref="PointsByGroupTable"/></param>
+        /// <param name="filePath">The path to the file</param>
         public static void CreateReportFile(IEnumerable<PointsByGroupTable> data_table, string filePath)
         {
             FileWorker.DeleteFileIfExists(filePath);
@@ -139,6 +154,12 @@ namespace BusinessLogicLayer
                 Process.Start(new ProcessStartInfo("explorer.exe", "/open, " + filePath));
             }
         }
+
+        /// <summary>
+        /// Saving in xlsx format file of session results for each group in the form of a table.
+        /// </summary>
+        /// <param name="data_table">List contains <see cref="SessionResultTable"/></param>
+        /// <param name="filePath">The path to the file</param>
         public static void CreateReportFile(IEnumerable<SessionResultTable> data_table, string filePath)
         {
             FileWorker.DeleteFileIfExists(filePath);

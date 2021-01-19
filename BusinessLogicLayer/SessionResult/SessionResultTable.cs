@@ -5,7 +5,7 @@ using System.Text;
 namespace BusinessLogicLayer.SessionResult
 {
     /// <summary>
-    /// 
+    /// Group results table.
     /// </summary>
     public class SessionResultTable
     {
@@ -20,7 +20,7 @@ namespace BusinessLogicLayer.SessionResult
             GroupName = groupName;
         }
         /// <summary>
-        /// 
+        /// Student execution result
         /// </summary>
         public IEnumerable<SessionResultUnit> sessionResults;
         /// <summary>

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace BusinessLogicLayer.PointsByGroup
 {
     /// <summary>
-    /// 
+    /// Class containing the name of the session and a list of groups with a minimum score, a maximum score, and an average score.
     /// </summary>
     public class PointsByGroupTable
     {
