@@ -190,7 +190,7 @@ namespace BusinessLogicLayer
                     SetHeaderStyle(workSheet, 1);
                     workSheet.Column(1).Width = 4;
                     workSheet.Column(2).Width = 30;
-                    workSheet.Column(3).Width = 15;
+                    workSheet.Column(3).Width = 25;
                     workSheet.Column(4).Width = 10;
                     workSheet.Column(5).Width = 12;
                     workSheet.Column(6).Width = 10;

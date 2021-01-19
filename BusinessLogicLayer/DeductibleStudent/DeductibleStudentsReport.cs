@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace BusinessLogicLayer.DeductibleStudent
@@ -18,28 +19,44 @@ namespace BusinessLogicLayer.DeductibleStudent
         /// <summary>
         /// Get a list of tables by group. The tables contain the full names of the students to be expelled.
         /// </summary>
-        /// <param name="sessionId"></param>
-        /// <param name="mark"></param>
-        /// <returns></returns>
-        public IEnumerable<DeductibleStudentsTable> GetReport(int sessionId, int mark)
+        /// <param name="sessionId">Session ID</param>
+        /// <param name="passing_score">Passing score</param>
+        /// <returns>List with <see cref="DeductibleStudentsTable"/></returns>
+        public IEnumerable<DeductibleStudentsTable> GetReport(int sessionId, int passing_score)
         {
             string[] GroupNames = GetGroupNames().Distinct().ToArray();
             List<DeductibleStudentsTable> list = new List<DeductibleStudentsTable>();
             foreach (var groupName in GroupNames)
             {
-                list.Add(new DeductibleStudentsTable(GetStudents(sessionId, mark, groupName), groupName));
+                list.Add(new DeductibleStudentsTable(GetStudents(sessionId, passing_score, groupName), groupName));
             }
 
             return list;
         }
         /// <summary>
+        /// Get a list of tables by group. The tables contain the full names of the students to be expelled.
+        /// </summary>
+        /// <param name="sessionId">Session ID</param>
+        /// <param name="passing_score">Passing score</param>
+        /// <param name="orderBy">Sorting elements of a collection</param>
+        /// <returns>List with <see cref="DeductibleStudentsTable"/></returns>
+        public IEnumerable<DeductibleStudentsTable> GetReport(int sessionId, int passing_score, Func<DeductibleStudentUnit, object> orderBy)
+        {
+            IEnumerable<DeductibleStudentsTable> list = GetReport(sessionId, passing_score);
+            foreach (var item in list)
+            {
+                item.deductibleStudents.OrderBy(orderBy);
+            }
+            return list;
+        }
+        /// <summary>
         /// Get information about the student to be expelled.
         /// </summary>
-        /// <param name="sessionId"></param>
-        /// <param name="mark"></param>
-        /// <param name="groupName"></param>
+        /// <param name="sessionId">Session ID</param>
+        /// <param name="passing_score">Passing score</param>
+        /// <param name="groupName">Group name</param>
         /// <returns>List with <see cref="DeductibleStudentUnit"/></returns>
-        private IEnumerable<DeductibleStudentUnit> GetStudents(int sessionId, int mark, string groupName)
+        private IEnumerable<DeductibleStudentUnit> GetStudents(int sessionId, int passing_score, string groupName)
         {
             IEnumerable<(int, int, int)> StudentIdAndFormEducationIdAndGroupID = GetStudentIdAndFormEducationIdAndGroupID(sessionId, 6).Distinct();
             IEnumerable<DeductibleStudentUnit> AllDeductibleStudents = from sfg in StudentIdAndFormEducationIdAndGroupID
@@ -55,15 +72,15 @@ namespace BusinessLogicLayer.DeductibleStudent
         /// <summary>
         /// Get student IDs to drop out.
         /// </summary>
-        /// <param name="sessionId">ID session</param>
-        /// <param name="зassing_score">Passing score</param>
+        /// <param name="sessionId">Session ID</param>
+        /// <param name="passing_score">Passing score</param>
         /// <returns>IEnumerable<(int StudentId, int GroupId, int EducationFormId)></returns>
-        private IEnumerable<(int, int, int)> GetStudentIdAndFormEducationIdAndGroupID(int sessionId, int зassing_score)// => Results.Where(result => result.Mark < mark && result.SessionId == sessionId).Select(results, group => results.StudentId).Distinct();
+        private IEnumerable<(int, int, int)> GetStudentIdAndFormEducationIdAndGroupID(int sessionId, int passing_score)// => Results.Where(result => result.Mark < mark && result.SessionId == sessionId).Select(results, group => results.StudentId).Distinct();
         {
             return from result in Results
                    join studene in Students on result.StudentId equals studene.Id
                    join ed_form in EducationForms on studene.EducationFormId equals ed_form.Id
-                   where result.Mark < зassing_score && result.SessionId == sessionId
+                   where result.Mark < passing_score && result.SessionId == sessionId
                    select (result.StudentId, studene.GroupId, ed_form.Id);
         }
         /// <summary>

@@ -20,32 +20,54 @@ namespace BusinessLogicLayer.SessionResult
         /// Get the session summary for each group in the form of a table.
         /// </summary>
         /// <param name="sessionId">Session ID</param>
-        /// <returns></returns>
+        /// <returns>List with <see cref="SessionResultTable"/></returns>
         public IEnumerable<SessionResultTable> GetReport(int sessionId)
         {
             return GetGroupId(sessionId).Select(groupId => new SessionResultTable(GetRowSessionResult(sessionId, groupId), GetGroupName(groupId))).ToList();
         }
         /// <summary>
-        /// 
+        /// Get the session summary for each group in the form of a table.
         /// </summary>
-        /// <param name="sessionId"></param>
+        /// <param name="sessionId">Session ID</param>
+        /// <param name="orderBy">Sorting elements of a collection</param>
         /// <returns></returns>
+        public IEnumerable<SessionResultTable> GetReport(int sessionId, Func<SessionResultUnit, object> orderBy)
+        {
+            IEnumerable<SessionResultTable> list = GetReport(sessionId);
+            foreach(var item in list)
+            {
+                item.sessionResults.OrderBy(orderBy);
+            }
+            return list;
+        }
+
+        /// <summary>
+        /// Get an array with group IDs for the specified session
+        /// </summary>
+        /// <param name="sessionId">Session ID</param>
+        /// <returns>Group IDs array</returns>
         int[] GetGroupId(int sessionId) => Schedules.Where(s => s.SessionId == sessionId).Select(s => s.GroupId).Distinct().ToArray();
         /// <summary>
-        /// 
+        /// Get group name by ID
         /// </summary>
         /// <param name="groupId"></param>
-        /// <returns></returns>
+        /// <returns>Group name, otherwise null</returns>
         string GetGroupName(int groupId) => Groups.FirstOrDefault(g => g.Id == groupId)?.Name;
-
-        IEnumerable<SessionResultUnit> GetRowSessionResult(int sessionId, int groupId)
+        /// <summary>
+        /// Get a list with session results.
+        /// </summary>
+        /// <param name="sessionId">Session ID</param>
+        /// <param name="groupId">Group ID</param>
+        /// <returns>List <see cref="SessionResultUnit"/></returns>
+        IEnumerable<SessionResultUnit> GetRowSessionResult(int sessionId, int groupId) //+
         {
-            return from students in Students
+            return from students in Students //
                    join results in Results on students.Id equals results.StudentId
                    join subjects in Subjects on results.SubjectId equals subjects.Id
                    join schedules in Schedules on students.GroupId equals schedules.GroupId
                    join testForms in TestForms on schedules.TestFormId equals testForms.Id
-                   where results.SessionId == sessionId && schedules.SessionId == sessionId && schedules.GroupId == groupId && students.GroupId == groupId
+                   join groups in Groups on students.GroupId equals groups.Id 
+                   where schedules.SessionId == sessionId && students.GroupId == groupId && schedules.SubjectId == results.SubjectId
                    select new SessionResultUnit(students.Name, students.Surname, students.MiddleName, subjects.Name, results.Mark, schedules.Date, testForms.Name);
         }
     }
