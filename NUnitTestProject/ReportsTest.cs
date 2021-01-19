@@ -17,22 +17,36 @@ namespace NUnitTestProject
     [TestFixture]
     public class DeductibleStudentsReportsTests : ConnectionInfo
     {
-        protected const string Path = @"DeductibleStudentsReport.xlsx";
         private static DeductibleStudentsReport Report { get; } = new DeductibleStudentsReport(ConnectionString);
 
-        [OneTimeSetUp]
-        public void SetUp()
+        /// <summary>
+        /// Testing <see cref="DeductibleStudentsReport.GetReport"/ method
+        /// </summary>
+        /// <param name="sessionId">Session ID</param>
+        /// <param name="passing_score">Passing score</param>
+        /// <param name="path">Path to file</param>
+        [TestCase(1, 6, @"DeductibleStudentsReport 1.xlsx")]
+        [Description ("Testing GetReport method")]
+        public void GetReportTest(int sessionId, int passing_score, string path)
         {
-
+            Excel.CreateReportFile(Report.GetReport(sessionId, passing_score), path, true);
+            Assert.IsTrue(File.Exists(path));
         }
 
-        [Test]
-        [TestCase(1)]
-        public void DeductibleStudentTest(int sessionId)
+        /// <summary>
+        /// Testing <see cref="DeductibleStudentsReport.GetReport(int, int, System.Func{DeductibleStudentUnit, object})"/ method
+        /// </summary>
+        /// <param name="sessionId">Session ID</param>
+        /// <param name="passing_score">Passing score</param>
+        /// <param name="path">Path to file</param>
+        [TestCase(1, 6, @"DeductibleStudentsReport 2.xlsx")]
+        [Description("Testing GetReport method")]
+        public void GetReportSortingTest(int sessionId, int passing_score, string path)
         {
-            Excel.CreateReportFile(Report.GetReport(sessionId, 6), Path);
-            Assert.IsTrue(File.Exists(Path));
+            Excel.CreateReportFile(Report.GetReport(sessionId, passing_score, s => s.Surname), path, true);
+            Assert.IsTrue(File.Exists(path));
         }
+
     }
 
     /// <summary>
@@ -43,18 +57,28 @@ namespace NUnitTestProject
     {
         private static PointsByGroupReport Report { get; } = new PointsByGroupReport(ConnectionString);
 
-        [OneTimeSetUp]
-        public void SetUp()
+        /// <summary>
+        /// Testing <see cref="PointsByGroupReport.GetReport"/ method
+        /// </summary>
+        /// <param name="path">Path to file</param>
+        [TestCase(@"PointsByGroupReport 1.xlsx")]
+        [Description("Testing GetReport method")]
+        public void GetReportTest(string path)
         {
-
+            Excel.CreateReportFile(Report.GetReport(), path);
+            Assert.IsTrue(File.Exists(path));
         }
 
-        [Test]
-        [TestCase("PointsByGroupReport 1.xlsx")]
-        public void PointsByGroupReportTest(string path_to_file)
+        /// <summary>
+        /// Testing <see cref="PointsByGroupReport.GetReport(System.Func{PointsByGroupUnit, object})"/ method
+        /// </summary>
+        /// <param name="path">Path to file</param>
+        [TestCase(@"DeductibleStudentsReport 2.xlsx")]
+        [Description("Testing GetReport method")]
+        public void GetReportSortingTest(string path)
         {
-            Excel.CreateReportFile(Report.GetReport(), path_to_file);
-            Assert.IsTrue(File.Exists(path_to_file));
+            Excel.CreateReportFile(Report.GetReport(s => s.AverageScore), path, true);
+            Assert.IsTrue(File.Exists(path));
         }
     }
 
@@ -66,19 +90,31 @@ namespace NUnitTestProject
     {
         private static SessionResultReport Report { get; } = new SessionResultReport(ConnectionString);
 
-        [OneTimeSetUp]
-        public void SetUp()
-        {
-
-        }
-
-        [Test]
+        /// <summary>
+        /// Testing <see cref="SessionResultReport.GetReport"/ method
+        /// </summary>
+        /// <param name="sessionId">Session ID</param>
+        /// <param name="path">Path to file</param>
         [TestCase(1, "SessionResultReport 1.xlsx")]
         [TestCase(2, "SessionResultReport 2.xlsx")]
-        public void SessionResultReportTest(int sessionId, string path_to_file)
+        [Description("Testing GetReport method")]
+        public void SessionResultReportTest(int sessionId, string path)
         {
-            Excel.CreateReportFile(Report.GetReport(sessionId), path_to_file, true);
-            Assert.IsTrue(File.Exists(path_to_file));
+            Excel.CreateReportFile(Report.GetReport(sessionId), path, true);
+            Assert.IsTrue(File.Exists(path));
+        }
+
+        /// <summary>
+        /// Testing <see cref="SessionResultReport.GetReport(int, System.Func{SessionResultUnit, object})"/ method
+        /// </summary>
+        /// <param name="sessionId">Session ID</param>
+        /// <param name="path">Path to file</param>
+        [TestCase(1, @"SessionResultReport 2.xlsx")]
+        [Description("Testing GetReport method")]
+        public void GetReportSortingTest(int sessionId, string path)
+        {
+            Excel.CreateReportFile(Report.GetReport(sessionId,s => s.Subject), path, true);
+            Assert.IsTrue(File.Exists(path));
         }
     }
 }
