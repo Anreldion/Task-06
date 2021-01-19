@@ -6,7 +6,7 @@ namespace BusinessLogicLayer.SessionResult
 {
     public class SessionResultUnit
     {
-        public SessionResultUnit(string name, string surname, string middleName, string subject, string mark, DateTime date, string testForm)
+        public SessionResultUnit(string name, string surname, string middleName, string subject, int mark, DateTime date, string testForm)
         {
             Name = name;
             Surname = surname;
@@ -36,7 +36,7 @@ namespace BusinessLogicLayer.SessionResult
         /// <summary>
         /// Mark.
         /// </summary>
-        public string Mark { get; set; }
+        public int Mark { get; set; }
         /// <summary>
         /// Completion date.
         /// </summary>

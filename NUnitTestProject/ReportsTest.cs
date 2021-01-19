@@ -7,8 +7,11 @@ using System.IO;
 
 namespace NUnitTestProject
 {
+    /// <summary>
+    /// Testing method of <see cref="DeductibleStudentsReport"/> class
+    /// </summary>
     [TestFixture]
-    public class DeductibleStudentsReportsTest
+    public class DeductibleStudentsReportsTests
     {
         protected const string Path = @"DeductibleStudentsReport.xlsx";
         const string ConnectionString = @"Data Source=UserPC\SQLEXPRESS; Initial Catalog=SessionResultsDatabase; Integrated Security=true;";
@@ -30,7 +33,7 @@ namespace NUnitTestProject
     }
 
     [TestFixture]
-    public class PointsByGroupReportTest
+    public class PointsByGroupReportTests
     {
         protected const string PathToReport = @"PointsByGroupReport.xlsx";
         const string ConnectionString = @"Data Source=UserPC\SQLEXPRESS; Initial Catalog=SessionResultsDatabase; Integrated Security=true;";
@@ -43,14 +46,14 @@ namespace NUnitTestProject
         }
 
         [Test]
-        public void DeductibleStudentTest()
+        public void PointsByGroupReportTest()
         {
             Excel.CreateReportFile(Report.GetReport(), PathToReport);
             Assert.IsTrue(File.Exists(PathToReport));
         }
     }
     [TestFixture]
-    public class SessionResultReportTest
+    public class SessionResultReportTests
     {
         protected const string PathToReport = @"SessionResultReport.xlsx";
         const string ConnectionString = @"Data Source=UserPC\SQLEXPRESS; Initial Catalog=SessionResultsDatabase; Integrated Security=true;";
@@ -64,7 +67,7 @@ namespace NUnitTestProject
 
         [Test]
         [TestCase(1)]
-        public void DeductibleStudentTest(int id)
+        public void SessionResultReportTest(int id)
         {
             Excel.CreateReportFile(Report.GetReport(id), PathToReport);
             Assert.IsTrue(File.Exists(PathToReport));

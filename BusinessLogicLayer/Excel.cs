@@ -142,11 +142,13 @@ namespace BusinessLogicLayer
                         workSheet.Row(i).Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
                         workSheet.Row(i).Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
 
+                        var list = data.pointsByGroups.ToList();
+
                         workSheet.Cells[i, 1].Value = i - 1;
-                        workSheet.Cells[i, 2].Value = data.pointsByGroups.ToList()[j].GroupName;
-                        workSheet.Cells[i, 3].Value = data.pointsByGroups.ToList()[j].MinimumScore;
-                        workSheet.Cells[i, 4].Value = data.pointsByGroups.ToList()[j].AverageScore;
-                        workSheet.Cells[i, 5].Value = data.pointsByGroups.ToList()[j].MaximumScore;
+                        workSheet.Cells[i, 2].Value = list[j].GroupName;
+                        workSheet.Cells[i, 3].Value = list[j].MinimumScore;
+                        workSheet.Cells[i, 4].Value = list[j].AverageScore;
+                        workSheet.Cells[i, 5].Value = list[j].MaximumScore;
                     }
                     workSheet.Cells["A" + i.ToString() + ":E" + i.ToString()].Style.Border.Top.Style = OfficeOpenXml.Style.ExcelBorderStyle.Medium;
                 }
@@ -170,8 +172,52 @@ namespace BusinessLogicLayer
                 ExcelWorkbook excelWorkBook = excelPackage.Workbook;
                 foreach (var data in data_table)
                 {
-                    
+                    ExcelWorksheet workSheet = excelPackage.Workbook.Worksheets.Add(data.GroupName);
+                    SetHeaderStyle(workSheet, 1);
+                    workSheet.Column(1).Width = 4;
+                    workSheet.Column(2).Width = 15;
+                    workSheet.Column(3).Width = 10;
+                    workSheet.Column(4).Width = 10;
+                    workSheet.Column(5).Width = 10;
+                    workSheet.Column(6).Width = 10;
 
+                    workSheet.Cells["A1:E1"].Style.Font.Size = 10;
+                    workSheet.Cells["A1:E1"].Style.Font.Name = "Arial Cyr";
+                    workSheet.Cells["A1:E1"].Style.Font.Bold = true;
+                    workSheet.Cells["A1:E1"].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Medium);
+                    workSheet.Cells["B1:D1"].Style.Border.Right.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
+                    workSheet.Cells["B1:D1"].Style.Border.Left.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
+
+                    workSheet.Cells[1, 1].Value = "№ ";
+                    workSheet.Cells[1, 2].Value = "Student";
+                    workSheet.Cells[1, 3].Value = "Subject";
+                    workSheet.Cells[1, 4].Value = "Mark";
+                    workSheet.Cells[1, 5].Value = "Date";
+                    workSheet.Cells[1, 6].Value = "Test form";
+
+                    int i = 2;
+                    for (int j = 0; j < data.sessionResults.Count(); i++, j++)
+                    {
+                        workSheet.Cells["A" + i.ToString() + ":E" + i.ToString()].Style.Font.Size = 10;
+                        workSheet.Cells["A" + i.ToString() + ":E" + i.ToString()].Style.Font.Name = "Arial Cyr";
+                        workSheet.Cells["A" + i.ToString() + ":E" + i.ToString()].Style.Border.Right.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
+                        workSheet.Cells["A" + i.ToString() + ":E" + i.ToString()].Style.Border.Left.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
+                        workSheet.Cells["A" + i.ToString() + ":E" + i.ToString()].Style.Border.Bottom.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
+                        workSheet.Cells["A" + i.ToString() + ":E" + i.ToString()].Style.WrapText = true;
+                        workSheet.Cells["E" + i.ToString()].Style.Border.Right.Style = OfficeOpenXml.Style.ExcelBorderStyle.Medium;
+                        workSheet.Row(i).Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+                        workSheet.Row(i).Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
+
+                        var list = data.sessionResults.ToList();
+
+                        workSheet.Cells[i, 1].Value = i - 1;
+                        workSheet.Cells[i, 2].Value = $"{list[j].Surname} {list[j].Name} {list[j].MiddleName}";
+                        workSheet.Cells[i, 3].Value = list[j].Subject;
+                        workSheet.Cells[i, 4].Value = list[j].Mark;
+                        workSheet.Cells[i, 5].Value = list[j].Date;
+                        workSheet.Cells[i, 6].Value = list[j].TestForm;
+                    }
+                    workSheet.Cells["A" + i.ToString() + ":E" + i.ToString()].Style.Border.Top.Style = OfficeOpenXml.Style.ExcelBorderStyle.Medium;
                 }
                 excelPackage.Save();
                 Process.Start(new ProcessStartInfo("explorer.exe", "/open, " + filePath));
