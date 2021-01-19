@@ -6,14 +6,17 @@ using System.Text;
 
 namespace BusinessLogicLayer
 {
+    /// <summary>
+    /// Class for working with files and folders.
+    /// </summary>
     public class FileWorker
     {
         /// <summary>
-        /// 
+        /// Create folder
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        public bool CreateFolder(string path)
+        public static bool CreateFolder(string path)
         {
             if (!Directory.Exists(path))
             {
@@ -40,18 +43,19 @@ namespace BusinessLogicLayer
         {
             DeductibleStudent,
             SessionResult,
+            PointsByGroup
         }
 
         /// <summary>
-        /// Open folder
+        /// Open an object at the specified path. 
         /// </summary>
         /// <param name="path"></param>
-        public void OpenFolder(string path)
+        public static void Open(string path)
         {
             Process.Start(new ProcessStartInfo("explorer.exe", "/open, " + path));
         }
         /// <summary>
-        /// 
+        /// Delete file if exists.
         /// </summary>
         /// <param name="path"></param>
         public static void DeleteFileIfExists(string path)
@@ -69,10 +73,10 @@ namespace BusinessLogicLayer
             }
         }
         /// <summary>
-        /// 
+        /// Delete folder if exists
         /// </summary>
         /// <param name="path"></param>
-        public void DeleteFolderIfExists(string path)
+        public static void DeleteFolderIfExists(string path)
         {
             if (Directory.Exists(path))//Удаляем
             {

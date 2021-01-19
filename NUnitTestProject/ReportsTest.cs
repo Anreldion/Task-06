@@ -69,7 +69,7 @@ namespace NUnitTestProject
         [TestCase(1)]
         public void SessionResultReportTest(int id)
         {
-            Excel.CreateReportFile(Report.GetReport(id), PathToReport);
+            Excel.CreateReportFile(Report.GetReport(id), PathToReport, true);
             Assert.IsTrue(File.Exists(PathToReport));
         }
     }

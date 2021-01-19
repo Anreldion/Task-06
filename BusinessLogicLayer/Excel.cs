@@ -33,7 +33,7 @@ namespace BusinessLogicLayer
         /// </summary>
         /// <param name="data_table">List contains <see cref="DeductibleStudentsTable"/></param>
         /// <param name="filePath">The path to the file</param>
-        public static void CreateReportFile(IEnumerable<DeductibleStudentsTable> data_table, string filePath)
+        public static void CreateReportFile(IEnumerable<DeductibleStudentsTable> data_table, string filePath, bool open_after_creation = false)
         {
             FileWorker.DeleteFileIfExists(filePath);
             FileInfo file = new FileInfo(filePath);
@@ -67,6 +67,9 @@ namespace BusinessLogicLayer
                     workSheet.Cells[1, 3].Value = "Name";
                     workSheet.Cells[1, 4].Value = "Middlename";
                     workSheet.Cells[1, 5].Value = "Education forms";
+
+                    var list = data.deductibleStudents.ToList();
+
                     int i = 2;
                     for (int j = 0; j < data.deductibleStudents.Count(); i++, j++)
                     {
@@ -79,16 +82,20 @@ namespace BusinessLogicLayer
                         workSheet.Cells["E" + i.ToString()].Style.Border.Right.Style = OfficeOpenXml.Style.ExcelBorderStyle.Medium;
 
                         workSheet.Cells[i, 1].Value = i - 1;
-                        workSheet.Cells[i, 2].Value = data.deductibleStudents.ToList()[j].Surname;
-                        workSheet.Cells[i, 3].Value = data.deductibleStudents.ToList()[j].Name;
-                        workSheet.Cells[i, 4].Value = data.deductibleStudents.ToList()[j].MiddleName;
-                        workSheet.Cells[i, 5].Value = data.deductibleStudents.ToList()[j].EducationForm;
+                        workSheet.Cells[i, 2].Value = list[j].Surname;
+                        workSheet.Cells[i, 3].Value = list[j].Name;
+                        workSheet.Cells[i, 4].Value = list[j].MiddleName;
+                        workSheet.Cells[i, 5].Value = list[j].EducationForm;
                     }
                     workSheet.Cells["A" + i.ToString() + ":E" + i.ToString()].Style.Border.Top.Style = OfficeOpenXml.Style.ExcelBorderStyle.Medium;
                 }
 
                 excelPackage.Save();
-                Process.Start(new ProcessStartInfo("explorer.exe", "/open, " + filePath));
+
+                if (open_after_creation)
+                {
+                    FileWorker.Open(filePath);
+                }
             }
         }
         /// <summary>
@@ -96,7 +103,7 @@ namespace BusinessLogicLayer
         /// </summary>
         /// <param name="data_table">List contains <see cref="PointsByGroupTable"/></param>
         /// <param name="filePath">The path to the file</param>
-        public static void CreateReportFile(IEnumerable<PointsByGroupTable> data_table, string filePath)
+        public static void CreateReportFile(IEnumerable<PointsByGroupTable> data_table, string filePath, bool open_after_creation = false)
         {
             FileWorker.DeleteFileIfExists(filePath);
             FileInfo file = new FileInfo(filePath);
@@ -129,6 +136,8 @@ namespace BusinessLogicLayer
                     workSheet.Cells[1, 4].Value = "Average Score";
                     workSheet.Cells[1, 5].Value = "Maximum Score";
 
+                    var list = data.pointsByGroups.ToList();
+
                     int i = 2;
                     for (int j = 0; j < data.pointsByGroups.Count(); i++, j++)
                     {
@@ -142,7 +151,7 @@ namespace BusinessLogicLayer
                         workSheet.Row(i).Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
                         workSheet.Row(i).Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
 
-                        var list = data.pointsByGroups.ToList();
+                        
 
                         workSheet.Cells[i, 1].Value = i - 1;
                         workSheet.Cells[i, 2].Value = list[j].GroupName;
@@ -153,7 +162,12 @@ namespace BusinessLogicLayer
                     workSheet.Cells["A" + i.ToString() + ":E" + i.ToString()].Style.Border.Top.Style = OfficeOpenXml.Style.ExcelBorderStyle.Medium;
                 }
                 excelPackage.Save();
-                Process.Start(new ProcessStartInfo("explorer.exe", "/open, " + filePath));
+
+                if (open_after_creation)
+                {
+                    FileWorker.Open(filePath);
+                }
+               
             }
         }
 
@@ -162,7 +176,7 @@ namespace BusinessLogicLayer
         /// </summary>
         /// <param name="data_table">List contains <see cref="SessionResultTable"/></param>
         /// <param name="filePath">The path to the file</param>
-        public static void CreateReportFile(IEnumerable<SessionResultTable> data_table, string filePath)
+        public static void CreateReportFile(IEnumerable<SessionResultTable> data_table, string filePath, bool open_after_creation = false)
         {
             FileWorker.DeleteFileIfExists(filePath);
             FileInfo file = new FileInfo(filePath);
@@ -175,18 +189,18 @@ namespace BusinessLogicLayer
                     ExcelWorksheet workSheet = excelPackage.Workbook.Worksheets.Add(data.GroupName);
                     SetHeaderStyle(workSheet, 1);
                     workSheet.Column(1).Width = 4;
-                    workSheet.Column(2).Width = 15;
-                    workSheet.Column(3).Width = 10;
+                    workSheet.Column(2).Width = 30;
+                    workSheet.Column(3).Width = 15;
                     workSheet.Column(4).Width = 10;
-                    workSheet.Column(5).Width = 10;
+                    workSheet.Column(5).Width = 12;
                     workSheet.Column(6).Width = 10;
 
-                    workSheet.Cells["A1:E1"].Style.Font.Size = 10;
-                    workSheet.Cells["A1:E1"].Style.Font.Name = "Arial Cyr";
-                    workSheet.Cells["A1:E1"].Style.Font.Bold = true;
-                    workSheet.Cells["A1:E1"].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Medium);
-                    workSheet.Cells["B1:D1"].Style.Border.Right.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
-                    workSheet.Cells["B1:D1"].Style.Border.Left.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
+                    workSheet.Cells["A1:F1"].Style.Font.Size = 10;
+                    workSheet.Cells["A1:F1"].Style.Font.Name = "Arial Cyr";
+                    workSheet.Cells["A1:F1"].Style.Font.Bold = true;
+                    workSheet.Cells["A1:F1"].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Medium);
+                    workSheet.Cells["B1:E1"].Style.Border.Right.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
+                    workSheet.Cells["B1:E1"].Style.Border.Left.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
 
                     workSheet.Cells[1, 1].Value = "№ ";
                     workSheet.Cells[1, 2].Value = "Student";
@@ -195,32 +209,35 @@ namespace BusinessLogicLayer
                     workSheet.Cells[1, 5].Value = "Date";
                     workSheet.Cells[1, 6].Value = "Test form";
 
+                    var list = data.sessionResults.ToList();
                     int i = 2;
                     for (int j = 0; j < data.sessionResults.Count(); i++, j++)
                     {
-                        workSheet.Cells["A" + i.ToString() + ":E" + i.ToString()].Style.Font.Size = 10;
-                        workSheet.Cells["A" + i.ToString() + ":E" + i.ToString()].Style.Font.Name = "Arial Cyr";
-                        workSheet.Cells["A" + i.ToString() + ":E" + i.ToString()].Style.Border.Right.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
-                        workSheet.Cells["A" + i.ToString() + ":E" + i.ToString()].Style.Border.Left.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
-                        workSheet.Cells["A" + i.ToString() + ":E" + i.ToString()].Style.Border.Bottom.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
-                        workSheet.Cells["A" + i.ToString() + ":E" + i.ToString()].Style.WrapText = true;
-                        workSheet.Cells["E" + i.ToString()].Style.Border.Right.Style = OfficeOpenXml.Style.ExcelBorderStyle.Medium;
+                        workSheet.Cells["A" + i.ToString() + ":F" + i.ToString()].Style.Font.Size = 10;
+                        workSheet.Cells["A" + i.ToString() + ":F" + i.ToString()].Style.Font.Name = "Arial Cyr";
+                        workSheet.Cells["A" + i.ToString() + ":F" + i.ToString()].Style.Border.Right.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
+                        workSheet.Cells["A" + i.ToString() + ":F" + i.ToString()].Style.Border.Left.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
+                        workSheet.Cells["A" + i.ToString() + ":F" + i.ToString()].Style.Border.Bottom.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
+                        workSheet.Cells["A" + i.ToString() + ":F" + i.ToString()].Style.WrapText = true;
+                        workSheet.Cells["F" + i.ToString()].Style.Border.Right.Style = OfficeOpenXml.Style.ExcelBorderStyle.Medium;
                         workSheet.Row(i).Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
                         workSheet.Row(i).Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
-
-                        var list = data.sessionResults.ToList();
 
                         workSheet.Cells[i, 1].Value = i - 1;
                         workSheet.Cells[i, 2].Value = $"{list[j].Surname} {list[j].Name} {list[j].MiddleName}";
                         workSheet.Cells[i, 3].Value = list[j].Subject;
                         workSheet.Cells[i, 4].Value = list[j].Mark;
-                        workSheet.Cells[i, 5].Value = list[j].Date;
+                        workSheet.Cells[i, 5].Value = list[j].Date.ToString("dd.MM.yyyy");
                         workSheet.Cells[i, 6].Value = list[j].TestForm;
                     }
-                    workSheet.Cells["A" + i.ToString() + ":E" + i.ToString()].Style.Border.Top.Style = OfficeOpenXml.Style.ExcelBorderStyle.Medium;
+                    workSheet.Cells["A" + i.ToString() + ":F" + i.ToString()].Style.Border.Top.Style = OfficeOpenXml.Style.ExcelBorderStyle.Medium;
                 }
                 excelPackage.Save();
-                Process.Start(new ProcessStartInfo("explorer.exe", "/open, " + filePath));
+
+                if (open_after_creation)
+                {
+                    FileWorker.Open(filePath);
+                }
             }
         }
     }
