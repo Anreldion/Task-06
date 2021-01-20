@@ -16,6 +16,8 @@ namespace BusinessLogicLayer.DeductibleStudent
         public DeductibleStudentsReport(string connectionString) : base(connectionString)
         {
         }
+
+
         /// <summary>
         /// Get a list of tables by group. The tables contain the full names of the students to be expelled.
         /// </summary>
@@ -45,7 +47,7 @@ namespace BusinessLogicLayer.DeductibleStudent
             IEnumerable<DeductibleStudentsTable> list = GetReport(sessionId, passing_score);
             foreach (var item in list)
             {
-                item.deductibleStudents.OrderBy(orderBy);
+                item.deductibleStudents = item.deductibleStudents.OrderBy(orderBy);
             }
             return list;
         }
@@ -60,13 +62,13 @@ namespace BusinessLogicLayer.DeductibleStudent
         {
             IEnumerable<(int, int, int)> StudentIdAndFormEducationIdAndGroupID = GetStudentIdAndFormEducationIdAndGroupID(sessionId, 6).Distinct();
             IEnumerable<DeductibleStudentUnit> AllDeductibleStudents = from sfg in StudentIdAndFormEducationIdAndGroupID
-                                                          join students in Students on sfg.Item1 equals students.Id
-                                                          join groups in Groups on sfg.Item2 equals groups.Id
-                                                          join form in EducationForms on sfg.Item3 equals form.Id
-                                                          select (new DeductibleStudentUnit(students.Name, students.Surname, students.MiddleName, form.Name, groups.Name));
+                                                                       join students in Students on sfg.Item1 equals students.Id
+                                                                       join groups in Groups on sfg.Item2 equals groups.Id
+                                                                       join form in EducationForms on sfg.Item3 equals form.Id
+                                                                       select (new DeductibleStudentUnit(students.Name, students.Surname, students.MiddleName, form.Name, groups.Name));
             IEnumerable<DeductibleStudentUnit> deductibleStudent = from ads in AllDeductibleStudents
-                                                               where (groupName == ads.GroupName)
-                                                               select ads;
+                                                                   where (groupName == ads.GroupName)
+                                                                   select ads;
             return deductibleStudent;
         }
         /// <summary>

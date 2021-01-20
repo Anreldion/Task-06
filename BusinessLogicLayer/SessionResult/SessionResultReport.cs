@@ -34,25 +34,12 @@ namespace BusinessLogicLayer.SessionResult
         public IEnumerable<SessionResultTable> GetReport(int sessionId, Func<SessionResultUnit, object> orderBy)
         {
             IEnumerable<SessionResultTable> list = GetReport(sessionId);
-            foreach(var item in list)
+            foreach (var item in list)
             {
-                item.sessionResults.OrderBy(orderBy);
+                item.sessionResults = item.sessionResults.OrderBy(orderBy);
             }
             return list;
         }
-
-        /// <summary>
-        /// Get an array with group IDs for the specified session
-        /// </summary>
-        /// <param name="sessionId">Session ID</param>
-        /// <returns>Group IDs array</returns>
-        int[] GetGroupId(int sessionId) => Schedules.Where(s => s.SessionId == sessionId).Select(s => s.GroupId).Distinct().ToArray();
-        /// <summary>
-        /// Get group name by ID
-        /// </summary>
-        /// <param name="groupId"></param>
-        /// <returns>Group name, otherwise null</returns>
-        string GetGroupName(int groupId) => Groups.FirstOrDefault(g => g.Id == groupId)?.Name;
         /// <summary>
         /// Get a list with session results.
         /// </summary>
@@ -66,9 +53,22 @@ namespace BusinessLogicLayer.SessionResult
                    join subjects in Subjects on results.SubjectId equals subjects.Id
                    join schedules in Schedules on students.GroupId equals schedules.GroupId
                    join testForms in TestForms on schedules.TestFormId equals testForms.Id
-                   join groups in Groups on students.GroupId equals groups.Id 
+                   join groups in Groups on students.GroupId equals groups.Id
                    where schedules.SessionId == sessionId && students.GroupId == groupId && schedules.SubjectId == results.SubjectId
                    select new SessionResultUnit(students.Name, students.Surname, students.MiddleName, subjects.Name, results.Mark, schedules.Date, testForms.Name);
         }
+        /// <summary>
+        /// Get an array with group IDs for the specified session
+        /// </summary>
+        /// <param name="sessionId">Session ID</param>
+        /// <returns>Group IDs array</returns>
+        int[] GetGroupId(int sessionId) => Schedules.Where(s => s.SessionId == sessionId).Select(s => s.GroupId).Distinct().ToArray();
+        /// <summary>
+        /// Get group name by ID
+        /// </summary>
+        /// <param name="groupId"></param>
+        /// <returns>Group name, otherwise null</returns>
+        string GetGroupName(int groupId) => Groups.FirstOrDefault(g => g.Id == groupId)?.Name;
+
     }
 }

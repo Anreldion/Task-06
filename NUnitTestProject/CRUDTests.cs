@@ -7,20 +7,34 @@ using System.Linq;
 
 namespace NUnitTestProject
 {
+    /// <summary>
+    /// Checking write, read, update operations for each database table.
+    /// </summary>
     [TestFixture]
     public class CRUDTests
     {
+        /// <summary>
+        /// Create <see cref="DAOFactory"/> object
+        /// </summary>
         DAOFactory Factory;
+        /// <summary>
+        /// Data from database table: Genders
+        /// </summary>
         IEnumerable<Gender> genders;
+        /// <summary>
+        /// Data from database table: SessionPeriod
+        /// </summary>
         IEnumerable<SessionPeriod> periods;
         IEnumerable<Session> session;
         IEnumerable<Subject> subject;
         IEnumerable<Group> groups;
         IEnumerable<EducationForm> education_forms;
         IEnumerable<TestForm> test_forms;
-
         IEnumerable<Student> students;
 
+        /// <summary>
+        /// Filling an empty database test parameters.
+        /// </summary>
         [OneTimeSetUp]
         public void SetUp()
         {

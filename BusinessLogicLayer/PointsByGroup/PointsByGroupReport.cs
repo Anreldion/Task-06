@@ -41,7 +41,7 @@ namespace BusinessLogicLayer.PointsByGroup
             IEnumerable<PointsByGroupTable> list = GetReport();
             foreach (var item in list)
             {
-                item.pointsByGroups.OrderBy(orderBy);
+                item.pointsByGroups = item.pointsByGroups.OrderBy(orderBy);
             }
             return list;
         }

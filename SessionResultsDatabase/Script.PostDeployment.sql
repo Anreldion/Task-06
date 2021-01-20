@@ -12,6 +12,8 @@ INSERT INTO [dbo].[Groups] ([Name]) VALUES  ('PE')
 GO
 INSERT INTO [dbo].[Groups] ([Name]) VALUES  ('PGS') 
 GO
+INSERT INTO [dbo].[Groups] ([Name]) VALUES  ('ZPE') 
+GO
 
 INSERT INTO [dbo].[Subjects] ([Name]) VALUES  ('Math') 
 GO
@@ -142,25 +144,25 @@ GO
 INSERT INTO [dbo]. [Students] ([Name], [Surname], [MiddleName], [GenderId], [DateofBirth], [GroupId], [EducationFormId]) VALUES ('Bella', 'Likhacheva', 'Yakovlevna ', 2,' 2001-4-12 ', 2, 1)
 GO
 
-INSERT INTO [dbo]. [Students] ([Name], [Surname], [MiddleName], [GenderId], [DateofBirth], [GroupId], [EducationFormId]) VALUES ('Oleg', 'Kononov', 'Ilyaovich ', 1,' 2000-1-3 ', 1, 2)
+INSERT INTO [dbo]. [Students] ([Name], [Surname], [MiddleName], [GenderId], [DateofBirth], [GroupId], [EducationFormId]) VALUES ('Oleg', 'Kononov', 'Ilyaovich ', 1,' 2000-1-3 ', 3, 2)
 GO
-INSERT INTO [dbo]. [Students] ([Name], [Surname], [MiddleName], [GenderId], [DateofBirth], [GroupId], [EducationFormId]) VALUES ('Vitaly', 'Ryabov', 'Bogdanovich ', 1,' 2000-1-9 ', 1, 2)
+INSERT INTO [dbo]. [Students] ([Name], [Surname], [MiddleName], [GenderId], [DateofBirth], [GroupId], [EducationFormId]) VALUES ('Vitaly', 'Ryabov', 'Bogdanovich ', 1,' 2000-1-9 ', 3, 2)
 GO
-INSERT INTO [dbo]. [Students] ([Name], [Surname], [MiddleName], [GenderId], [DateofBirth], [GroupId], [EducationFormId]) VALUES ('Rostislav', 'Potapov', 'Konstantinovich ', 1,' 2000-1-12 ', 1, 2)
+INSERT INTO [dbo]. [Students] ([Name], [Surname], [MiddleName], [GenderId], [DateofBirth], [GroupId], [EducationFormId]) VALUES ('Rostislav', 'Potapov', 'Konstantinovich ', 1,' 2000-1-12 ', 3, 2)
 GO
-INSERT INTO [dbo]. [Students] ([Name], [Surname], [MiddleName], [GenderId], [DateofBirth], [GroupId], [EducationFormId]) VALUES ('Rudolf', 'Pestov', 'Evgenievich ', 1,' 2000-1-12 ', 1, 2)
+INSERT INTO [dbo]. [Students] ([Name], [Surname], [MiddleName], [GenderId], [DateofBirth], [GroupId], [EducationFormId]) VALUES ('Rudolf', 'Pestov', 'Evgenievich ', 1,' 2000-1-12 ', 3, 2)
 GO
-INSERT INTO [dbo]. [Students] ([Name], [Surname], [MiddleName], [GenderId], [DateofBirth], [GroupId], [EducationFormId]) VALUES ('Solomon', 'Bespalov', 'Semenovich ', 1,' 2000-1-12 ', 1, 2)
+INSERT INTO [dbo]. [Students] ([Name], [Surname], [MiddleName], [GenderId], [DateofBirth], [GroupId], [EducationFormId]) VALUES ('Solomon', 'Bespalov', 'Semenovich ', 1,' 2000-1-12 ', 3, 2)
 GO
-INSERT INTO [dbo]. [Students] ([Name], [Surname], [MiddleName], [GenderId], [DateofBirth], [GroupId], [EducationFormId]) VALUES ('Gloria', 'Kulagina', 'Sergeevna ', 2,' 2001-1-3 ', 1, 2)
+INSERT INTO [dbo]. [Students] ([Name], [Surname], [MiddleName], [GenderId], [DateofBirth], [GroupId], [EducationFormId]) VALUES ('Gloria', 'Kulagina', 'Sergeevna ', 2,' 2001-1-3 ', 3, 2)
 GO
-INSERT INTO [dbo]. [Students] ([Name], [Surname], [MiddleName], [GenderId], [DateofBirth], [GroupId], [EducationFormId]) VALUES ('Larisa', 'Evdokimova', 'Gennadievna ', 2,' 2001-1-6 ', 1, 2)
+INSERT INTO [dbo]. [Students] ([Name], [Surname], [MiddleName], [GenderId], [DateofBirth], [GroupId], [EducationFormId]) VALUES ('Larisa', 'Evdokimova', 'Gennadievna ', 2,' 2001-1-6 ', 3, 2)
 GO
-INSERT INTO [dbo]. [Students] ([Name], [Surname], [MiddleName], [GenderId], [DateofBirth], [GroupId], [EducationFormId]) VALUES ('Augusta', 'Shubina', 'Svyatoslavovna ', 2,' 2001-1-9 ', 1, 2)
+INSERT INTO [dbo]. [Students] ([Name], [Surname], [MiddleName], [GenderId], [DateofBirth], [GroupId], [EducationFormId]) VALUES ('Augusta', 'Shubina', 'Svyatoslavovna ', 2,' 2001-1-9 ', 3, 2)
 GO
-INSERT INTO [dbo]. [Students] ([Name], [Surname], [MiddleName], [GenderId], [DateofBirth], [GroupId], [EducationFormId]) VALUES ('Juliet', 'Blokhin', 'Martynovna ', 2,' 2001-1-12 ', 1, 2)
+INSERT INTO [dbo]. [Students] ([Name], [Surname], [MiddleName], [GenderId], [DateofBirth], [GroupId], [EducationFormId]) VALUES ('Juliet', 'Blokhin', 'Martynovna ', 2,' 2001-1-12 ', 3, 2)
 GO
-INSERT INTO [dbo]. [Students] ([Name], [Surname], [MiddleName], [GenderId], [DateofBirth], [GroupId], [EducationFormId]) VALUES ('Kharitina', 'Koroleva', 'Gelasyevna ', 2,' 2001-3-12 ', 1, 2)
+INSERT INTO [dbo]. [Students] ([Name], [Surname], [MiddleName], [GenderId], [DateofBirth], [GroupId], [EducationFormId]) VALUES ('Kharitina', 'Koroleva', 'Gelasyevna ', 2,' 2001-3-12 ', 3, 2)
 GO
 
 
@@ -216,17 +218,17 @@ GO
 INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,4,6,9) 
 GO
 
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,5,1,4) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,5,1,9) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,5,2,5) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,5,2,8) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,5,3,6) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,5,3,7) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,5,4,7) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,5,4,6) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,5,5,8) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,5,5,5) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,5,6,9) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,5,6,4) 
 GO
 
 INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,6,1,4) 
@@ -242,17 +244,17 @@ GO
 INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,6,6,9) 
 GO
 
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,7,1,4) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,7,1,9) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,7,2,5) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,7,2,8) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,7,3,6) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,7,3,7) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,7,4,7) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,7,4,6) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,7,5,8) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,7,5,5) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,7,6,9) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,7,6,4) 
 GO
 
 INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,8,1,4) 
@@ -268,17 +270,17 @@ GO
 INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,8,6,9) 
 GO
 
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,9,1,4) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,9,1,9) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,9,2,5) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,9,2,8) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,9,3,6) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,9,3,7) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,9,4,7) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,9,4,6) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,9,5,8) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,9,5,5) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,9,6,9) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,9,6,4) 
 GO
 
 INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,10,1,4) 
@@ -294,17 +296,17 @@ GO
 INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,10,6,9) 
 GO
 
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,11,1,4) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,11,1,9) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,11,2,5) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,11,2,8) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,11,3,6) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,11,3,7) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,11,4,7) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,11,4,6) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,11,5,8) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,11,5,5) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,11,6,9) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,11,6,4) 
 GO
 
 INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,12,1,4) 
@@ -320,17 +322,17 @@ GO
 INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,12,6,9) 
 GO
 
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,13,1,4)
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,13,1,9)
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,13,2,5)
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,13,2,8)
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,13,3,6)
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,13,3,7)
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,13,4,7)
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,13,4,6)
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,13,5,8)
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,13,5,5)
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,13,6,9)
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,13,6,4)
 GO
 
 INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,14,1,4) 
@@ -346,17 +348,17 @@ GO
 INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,14,6,9) 
 GO
 
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,15,1,4) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,15,1,9) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,15,2,5) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,15,2,8) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,15,3,6) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,15,3,7) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,15,4,7) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,15,4,6) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,15,5,8) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,15,5,5) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,15,6,9) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,15,6,4) 
 GO
 
 INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,16,1,4) 
@@ -372,17 +374,17 @@ GO
 INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,16,6,9) 
 GO
 
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,17,1,4) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,17,1,9) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,17,2,5) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,17,2,8) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,17,3,6) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,17,3,7) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,17,4,7) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,17,4,6) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,17,5,8) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,17,5,5) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,17,6,9) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,17,6,4) 
 GO
 
 INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,18,1,4) 
@@ -398,17 +400,17 @@ GO
 INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,18,6,9) 
 GO
 
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,19,1,4) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,19,1,9) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,19,2,5) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,19,2,8) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,19,3,6) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,19,3,7) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,19,4,7) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,19,4,6) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,19,5,8) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,19,5,5) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,19,6,9) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,19,6,4) 
 GO
 
 INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,20,1,4) 
@@ -424,17 +426,17 @@ GO
 INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,20,6,9) 
 GO
 
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,21,1,4) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,21,1,9) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,21,2,5) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,21,2,8) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,21,3,6) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,21,3,7) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,21,4,7) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,21,4,6) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,21,5,8) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,21,5,5) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,21,6,9) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,21,6,4) 
 GO
 
 INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,22,1,4) 
@@ -450,17 +452,17 @@ GO
 INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,22,6,9) 
 GO
 
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,23,1,4) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,23,1,9) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,23,2,5) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,23,2,8) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,23,3,6) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,23,3,7) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,23,4,7) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,23,4,6) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,23,5,8) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,23,5,5) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,23,6,9) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,23,6,4) 
 GO
 
 INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,24,1,4)
@@ -476,17 +478,17 @@ GO
 INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,24,6,9)
 GO
 
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,25,1,4) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,25,1,9) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,25,2,5) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,25,2,8) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,25,3,6) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,25,3,7) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,25,4,7) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,25,4,6) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,25,5,8) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,25,5,5) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,25,6,9) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,25,6,4) 
 GO
 
 INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,26,1,4) 
@@ -502,17 +504,17 @@ GO
 INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,26,6,9) 
 GO
 
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,27,1,4)
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,27,1,9)
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,27,2,5)
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,27,2,8)
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,27,3,6)
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,27,3,7)
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,27,4,7)
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,27,4,6)
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,27,5,8)
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,27,5,5)
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,27,6,9)
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,27,6,4)
 GO
 
 INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,28,1,4) 
@@ -528,17 +530,17 @@ GO
 INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,28,6,9) 
 GO
 
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,29,1,4) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,29,1,9) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,29,2,5) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,29,2,8) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,29,3,6) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,29,3,7) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,29,4,7) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,29,4,6) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,29,5,8) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,29,5,5) 
 GO
-INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,29,6,9) 
+INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (2,29,6,4) 
 GO
 
 INSERT INTO [dbo].[Results] ([SessionId],[StudentId],[SubjectId],[Mark]) VALUES (1,30,1,4) 
