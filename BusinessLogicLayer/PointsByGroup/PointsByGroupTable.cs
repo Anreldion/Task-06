@@ -24,7 +24,7 @@ namespace BusinessLogicLayer.PointsByGroup
         /// </summary>
         public string SessionPeriod { get; set; }
         /// <summary>
-        /// 
+        /// List with <see cref="PointsByGroupUnit"/>
         /// </summary>
         public IEnumerable<PointsByGroupUnit> pointsByGroups;
 

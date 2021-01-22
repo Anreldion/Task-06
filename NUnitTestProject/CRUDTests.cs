@@ -33,14 +33,14 @@ namespace NUnitTestProject
         IEnumerable<Student> students;
 
         /// <summary>
-        /// Filling an empty database test parameters.
+        /// Filling an empty database with test parameters.
         /// </summary>
         [OneTimeSetUp]
         public void SetUp()
         {
             Factory = DAOFactory.GetInstance(@"Data Source=UserPC\SQLEXPRESS; Initial Catalog=SessionResultsDatabase; Integrated Security=true;");
 
-            // Add data to DB if don't exist.
+            // Add data to DB if doesn't exist.
 
             // Add Gender
             if (Factory.GetGender().IsExistAsync(new Gender("Man")).Result == false)

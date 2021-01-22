@@ -3,14 +3,13 @@ using BusinessLogicLayer.PointsByGroup;
 using BusinessLogicLayer.SessionResult;
 using OfficeOpenXml;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
 namespace BusinessLogicLayer
 {
     /// <summary>
-    /// Class for generating .xlxs reports.
+    /// Class for creation of .xlxs reports.
     /// </summary>
     public class Excel
     {
@@ -29,11 +28,11 @@ namespace BusinessLogicLayer
         }
 
         /// <summary>
-        /// Form a list of students to be expelled, grouped by group.
+        /// Form a list of students to be expelled, formed by group.
         /// </summary>
-        /// <param name="data_table">List contains <see cref="DeductibleStudentsTable"/></param>
+        /// <param name="data_table">List contains <see cref="ToBeExpelledStudentTable"/></param>
         /// <param name="filePath">The path to the file</param>
-        public static void CreateReportFile(IEnumerable<DeductibleStudentsTable> data_table, string filePath, bool open_after_creation = false)
+        public static void CreateReportFile(IEnumerable<ToBeExpelledStudentTable> data_table, string filePath, bool open_after_creation = false)
         {
             FileWorker.DeleteFileIfExists(filePath);
             FileInfo file = new FileInfo(filePath);
@@ -99,7 +98,7 @@ namespace BusinessLogicLayer
             }
         }
         /// <summary>
-        /// For each session, display the xlsx pivot table with the average / minimum / maximum score for each group.
+        /// For each session, display the xlsx joint table with the average / minimum / maximum score for each group.
         /// </summary>
         /// <param name="data_table">List contains <see cref="PointsByGroupTable"/></param>
         /// <param name="filePath">The path to the file</param>
@@ -151,7 +150,7 @@ namespace BusinessLogicLayer
                         workSheet.Row(i).Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
                         workSheet.Row(i).Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
 
-                        
+
 
                         workSheet.Cells[i, 1].Value = i - 1;
                         workSheet.Cells[i, 2].Value = list[j].GroupName;
@@ -167,12 +166,12 @@ namespace BusinessLogicLayer
                 {
                     FileWorker.Open(filePath);
                 }
-               
+
             }
         }
 
         /// <summary>
-        /// Saving in xlsx format file of session results for each group in the form of a table.
+        /// Saving in xlsx format session results for each group in table form.
         /// </summary>
         /// <param name="data_table">List contains <see cref="SessionResultTable"/></param>
         /// <param name="filePath">The path to the file</param>

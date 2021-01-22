@@ -30,7 +30,7 @@ namespace DataAccessLayer.Data_Access_Object
         /// Checking an object for existence.
         /// </summary>
         /// <param name="data">Data object</param>
-        /// <returns>true if exist, otherwise false</returns>
+        /// <returns>true if exists, otherwise false</returns>
         public async Task<bool> IsExistAsync(T data)
         {
             List<string> columns = new List<string>();
@@ -215,7 +215,7 @@ namespace DataAccessLayer.Data_Access_Object
         {
             List<string> columns = new List<string>();
             try
-            {               
+            {
                 using (SqlConnection Connect = new SqlConnection(connectionString))
                 {
                     using (SqlCommand sqlcommand = new SqlCommand())
@@ -224,7 +224,7 @@ namespace DataAccessLayer.Data_Access_Object
                         PropertyInfo[] propertys = data.GetType().GetProperties();
                         foreach (var item in propertys)
                         {
-                            if(item.Name == "Id")
+                            if (item.Name == "Id")
                             {
                                 continue;
                             }

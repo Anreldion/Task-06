@@ -4,8 +4,21 @@ using System.Text;
 
 namespace BusinessLogicLayer.SessionResult
 {
+    /// <summary>
+    /// A class containing information about a student's grade.
+    /// </summary>
     public class SessionResultUnit
     {
+        /// <summary>
+        /// Class constructor <see cref="SessionResultUnit"/>
+        /// </summary>
+        /// <param name="name">Student name</param>
+        /// <param name="surname">Student surname</param>
+        /// <param name="middleName">Student middleName</param>
+        /// <param name="subject">Subject</param>
+        /// <param name="mark">Mark</param>
+        /// <param name="date">Completion date</param>
+        /// <param name="testForm">Test form</param>
         public SessionResultUnit(string name, string surname, string middleName, string subject, int mark, DateTime date, string testForm)
         {
             Name = name;

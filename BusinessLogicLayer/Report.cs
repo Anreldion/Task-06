@@ -1,8 +1,6 @@
 ﻿using DataAccessLayer.Data_Access_Object;
 using DataAccessLayer.Object_Relational_Mapping;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace BusinessLogicLayer
 {

@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Text;
 
 namespace BusinessLogicLayer
 {
@@ -12,7 +10,7 @@ namespace BusinessLogicLayer
     public class FileWorker
     {
         /// <summary>
-        /// Create folder
+        /// Create a folder
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
@@ -47,7 +45,7 @@ namespace BusinessLogicLayer
         }
 
         /// <summary>
-        /// Open an object at the specified path. 
+        /// Open an object at the shown path. 
         /// </summary>
         /// <param name="path"></param>
         public static void Open(string path)
